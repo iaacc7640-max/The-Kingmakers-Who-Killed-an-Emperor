@@ -1,0 +1,7 @@
+renders/
+review/
+*.mp4
+*.wav
+data/narration.wav
+data/mix.wav
+node_modules/
