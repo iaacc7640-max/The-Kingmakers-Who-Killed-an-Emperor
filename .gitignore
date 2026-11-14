@@ -1,7 +1,10 @@
-renders/
-review/
+**/renders/parts/
+**/renders/*.mp4
+**/renders/*.png
+**/renders/*.log
+**/review/
 *.mp4
 *.wav
-data/narration.wav
-data/mix.wav
+*.png
 node_modules/
+review_voice.log

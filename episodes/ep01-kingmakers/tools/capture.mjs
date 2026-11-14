@@ -24,7 +24,7 @@ const args = process.argv.slice(2), flags = new Set(args.filter((a) => a.startsW
 const [mode, ...rest] = args.filter((a) => !a.startsWith('--'));
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.otf': 'font/otf',
-  '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.png': 'image/png', '.jpg': 'image/jpeg' };
+  '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.woff': 'font/woff', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.png': 'image/png', '.jpg': 'image/jpeg' };
 function serve(port = 0) {
   return new Promise((res) => {
     const srv = http.createServer((req, r) => {
@@ -41,7 +41,7 @@ async function openPage(port) {
   if (!CHROME) throw new Error('Chrome not found: install Google Chrome or set CHROME=/path/to/chrome');
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'fs-chrome-'));
   const chrome = spawn(CHROME, ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${prof}`, '--no-first-run', '--no-default-browser-check',
-    '--hide-scrollbars', '--window-size=1080,1920', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader', ...(process.env.SOFTWARE_GL ? ['--use-angle=swiftshader'] : []), ...(process.getuid?.() === 0 ? ['--no-sandbox'] : []), '--disable-background-timer-throttling', '--disable-renderer-backgrounding', 'about:blank'], { stdio: 'ignore' });
+    '--hide-scrollbars', '--window-size=1920,1080', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader', ...(process.env.SOFTWARE_GL ? ['--use-angle=swiftshader'] : []), ...(process.getuid?.() === 0 ? ['--no-sandbox'] : []), '--disable-background-timer-throttling', '--disable-renderer-backgrounding', 'about:blank'], { stdio: 'ignore' });
   let dbg;
   for (let i = 0; i < 200 && !dbg; i++) { try { dbg = fs.readFileSync(path.join(prof, 'DevToolsActivePort'), 'utf8').split('\n')[0].trim(); } catch { await sleep(100); } }
   if (!dbg) throw new Error('Chrome did not start');
@@ -88,18 +88,28 @@ else {
     } else if (mode === 'cues') {
       const cues = await P.ev('OP.cues()');
       fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
-      fs.writeFileSync(path.join(ROOT, 'data/cues.json'), JSON.stringify({ duration: dur, cues }, null, 1));
+      fs.writeFileSync(path.join(ROOT, 'data/cues.json'), JSON.stringify({ duration: dur, cues, beats: await P.ev('OP.beats()') }, null, 1));
       console.log(`data/cues.json: ${cues.length} cues, ${dur.toFixed(2)} s`);
+    } else if (mode === 'events') {
+      // fails on any gap > 3.5 s without an on-screen event (ev(), a cut, or a sound cue)
+      const evs = await P.ev('OP.events()'); const ts = [0, ...evs.map((e) => e.t).filter((t) => t >= 0 && t <= dur), dur].sort((a, b) => a - b); let bad = 0;
+      for (let i = 1; i < ts.length; i++) if (ts[i] - ts[i - 1] > 3.5) { bad++; console.log(`GAP ${(ts[i] - ts[i - 1]).toFixed(2)} s: ${ts[i - 1].toFixed(2)} → ${ts[i].toFixed(2)}`); }
+      console.log(`${evs.length} events; ${bad ? 'EVENTS FAILED' : 'EVENTS OK (no gap > 3.5 s)'}`); if (bad) process.exitCode = 1;
+    } else if (mode === 'beats') {
+      const bs = await P.ev('OP.beats()'); const ts = [0, ...bs.map((b) => b.at), dur]; let bad = 0;
+      bs.forEach((b) => console.log(`${b.at.toFixed(2).padStart(7)}  ${b.year} · ${b.words}`));
+      for (let i = 1; i < ts.length; i++) if (ts[i] - ts[i - 1] > 60) { bad++; console.log(`GAP ${(ts[i] - ts[i - 1]).toFixed(1)} s between beat starts: ${ts[i - 1].toFixed(1)} → ${ts[i].toFixed(1)}`); }
+      console.log(bad ? 'BEATS FAILED' : 'BEATS OK (no gap > 60 s)'); if (bad) process.exitCode = 1;
     } else if (mode === 'frames') {
       const dir = path.resolve(ROOT, rest[0] || 'review/frames'); fs.mkdirSync(dir, { recursive: true });
       for (const t of (rest[1] || '0').split(',').map(Number)) { fs.writeFileSync(path.join(dir, `t${t.toFixed(2)}.jpg`), jpg(await P.ev(FRAME(t, 0.92)))); }
       console.log(dir);
     } else if (mode === 'sheet') {
-      const out = path.resolve(ROOT, rest[0] || 'review/all.jpg'), step = +(rest[1] || 0.5), cols = +(rest[2] || 9);
+      const out = path.resolve(ROOT, rest[0] || 'review/all.jpg'), step = +(rest[1] || 0.5), cols = +(rest[2] || 9), s0 = rest[3] ? +rest[3] : 0, s1 = rest[4] ? Math.min(+rest[4], dur) : dur;
       const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'fs-sheet-')); let n = 0;
-      for (let t = step / 2; t < dur; t += step) fs.writeFileSync(path.join(tmp, `f${String(n++).padStart(4, '0')}.jpg`), jpg(await P.ev(FRAME(t, 0.8, true))));
+      for (let t = s0 + step / 2; t < s1; t += step) fs.writeFileSync(path.join(tmp, `f${String(n++).padStart(4, '0')}.jpg`), jpg(await P.ev(FRAME(t, 0.8, true))));
       const rows = Math.ceil(n / cols); fs.mkdirSync(path.dirname(out), { recursive: true });
-      const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-framerate', '1', '-i', path.join(tmp, 'f%04d.jpg'), '-vf', `scale=216:384,tile=${cols}x${rows}:padding=4:color=black`, '-frames:v', '1', '-q:v', '3', out]);
+      const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-framerate', '1', '-i', path.join(tmp, 'f%04d.jpg'), '-vf', `scale=384:216,tile=${cols}x${rows}:padding=4:color=black`, '-frames:v', '1', '-q:v', '3', out]);
       fs.rmSync(tmp, { recursive: true, force: true });
       if (r.status) throw new Error('ffmpeg: ' + r.stderr); console.log(`${out} (${n} frames, every ${step} s)`);
     } else if (mode === 'video') {

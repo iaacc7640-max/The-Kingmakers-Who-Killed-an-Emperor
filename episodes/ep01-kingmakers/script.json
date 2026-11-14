@@ -1,26 +1,469 @@
 {
-  "title": "How One Bakery Burned Down London",
+  "title": "The Kingmakers Who Killed an Emperor",
+  "episode": 1,
+  "slug": "kingmakers",
   "voice": "bm_george",
-  "speed": 1.0,
-  "lead": 0.4,
-  "outro": 1.1,
-  "gap": 0.3,
-  "music": "tension",
+  "speed": 0.97,
+  "lead": 0.35,
+  "outro": 2.4,
+  "gap": 0.32,
+  "music": "series",
   "sources": [
-    "London Museum, 'The Great Fire of London' (began 2 September 1666 in Thomas Farriner's bakery on Pudding Lane; burned for four days; about 13,200 houses, 87 parish churches and St Paul's Cathedral destroyed)",
-    "Royal Museums Greenwich, 'The Great Fire of London' (wooden houses, strong east wind, the Lord Mayor's dismissive response, houses blown up to create firebreaks)",
-    "Rebuilding Act 1667: new buildings in brick and stone"
+    "Rajiv Ahir, A Brief History of Modern India, Ch. 4, pp. 64, 67-68 (facts list and Owen quote as given in the Episode 1 prompt; ahir.pdf itself was not in the repo)",
+    "Britannica, 'Bahadur Shah I' (reigned 1707-1712; accession 1707) https://www.britannica.com/biography/Bahadur-Shah-I",
+    "Wikipedia, 'Sayyid brothers' (Hassan Ali Khan / Abdullah Khan and Hussain Ali Khan; Farrukhsiyar deposed and blinded 1719; Hussain Ali murdered 1720; Abdullah defeated Nov 1720, poisoned 1722) https://en.wikipedia.org/wiki/Sayyid_brothers",
+    "Wikipedia / Britannica, 'Muhammad Shah' (born Roshan Akhtar, Aug 1702; crowned Sept 1719, aged 17) https://en.wikipedia.org/wiki/Muhammad_Shah https://www.britannica.com/biography/Muhammad-Shah",
+    "GKToday, 'Bahadur Shah I' (Khafi Khan's title Shah-i-Bekhabar) https://www.gktoday.in/bahadur-shah-i",
+    "UPSC with Nikhil, 'Zulfiqar Khan and Jahandar Shah (1712-13)' (izara; jizya abolished) https://upscwithnikhil.com/article/history/zulfiqar-khan-and-jahandar-shah-1712-13",
+    "Vajiram & Ravi, 'Farrukh Siyar' (Husain Ali marched on Delhi with Maratha troops under Peshwa Balaji Vishwanath) https://vajiramandravi.com/current-affairs/farrukh-siyar/",
+    "Banglapedia, 'Farrukh Siyar' (1717 farman: English Company trade in Bengal free of customs duty) https://en.banglapedia.org/index.php?title=Farrukh_Siyar"
   ],
   "lines": [
-    { "text": "In sixteen sixty-six, a tiny bakery fire burned down most of London.", "caps": "In *1666, | a tiny *bakery fire | burned down *London." },
-    { "text": "It started just after midnight, in Thomas Farriner's bakery on Pudding Lane.", "caps": "Just after *midnight, | in Farriner's *bakery | on Pudding *Lane." },
-    { "text": "London was packed with wooden houses, and a strong wind was blowing,", "caps": "Packed with *wooden houses, | a strong *wind" },
-    { "text": "so the flames jumped from roof to roof.", "caps": "Flames *jumped | roof to *roof." },
-    { "text": "The Lord Mayor was woken up, but he shrugged it off.", "caps": "The Lord *Mayor | shrugged it *off." },
-    { "text": "For four days, the city burned.", "caps": "For four *days, | the city *burned." },
-    { "text": "Thirteen thousand houses, eighty-seven churches, and St Paul's Cathedral were gone.", "caps": "*13,000 houses, | *87 churches, | and St Paul's | were *gone." },
-    { "text": "In the end, they blew up whole streets to stop it spreading.", "caps": "They *blew up | whole *streets | to *stop it." },
-    { "text": "And when London was rebuilt, it was built in brick and stone.", "caps": "London was *rebuilt | in *brick | and *stone." },
-    { "text": "All because of one small bakery.", "caps": "All *because of | one small *bakery.", "gap": 0.2 }
+    {
+      "text": "In seventeen nineteen, two brothers had a Moo-gul emperor dragged from his palace,",
+      "caps": "In *1719, | two *brothers | had a Mughal *emperor | dragged from his *palace,"
+    },
+    {
+      "text": "blinded and killed.",
+      "caps": "blinded and *killed."
+    },
+    {
+      "text": "No nobles had ever done that to an emperor before.",
+      "caps": "No nobles | had *ever | done that | to an *emperor."
+    },
+    {
+      "text": "And within a single year,",
+      "caps": "Within a *single year,"
+    },
+    {
+      "text": "four different men sat on the Moo-gul throne.",
+      "caps": "*four different men | on the Mughal *throne."
+    },
+    {
+      "text": "How did the greatest empire in the world",
+      "caps": "How did the *greatest | empire in the *world"
+    },
+    {
+      "text": "become a prize to be handed out?",
+      "caps": "become a *prize | to be *handed out?",
+      "gap": 0.6
+    },
+    {
+      "text": "To see how, go back twelve years, to seventeen oh seven.",
+      "caps": "Go back | twelve *years, | to *1707."
+    },
+    {
+      "text": "The emperor Or-ung-zeb had ruled for nearly fifty years.",
+      "caps": "Emperor *Aurangzeb | ruled for nearly | *fifty years."
+    },
+    {
+      "text": "When he died, he left three sons, one empire,",
+      "caps": "He left | three *sons, | one *empire,"
+    },
+    {
+      "text": "and no agreed heir.",
+      "caps": "and no agreed *heir."
+    },
+    {
+      "text": "So the princes did what Moo-gul princes had always done.",
+      "caps": "So the *princes | did what princes | had *always done."
+    },
+    {
+      "text": "They fought.",
+      "caps": "They *fought."
+    },
+    {
+      "text": "A Moo-gul throne was never simply inherited. It had to be won.",
+      "caps": "A Mughal throne | was never *inherited. | It had to be *won."
+    },
+    {
+      "text": "The oldest, Prince Muazzam, was about sixty-three.",
+      "caps": "The *oldest, | Prince *Muazzam, | about *63."
+    },
+    {
+      "text": "He was no young warrior,",
+      "caps": "No young *warrior,"
+    },
+    {
+      "text": "but he won.",
+      "caps": "but he *won."
+    },
+    {
+      "text": "His brother Aa-zum fell in battle that same year,",
+      "caps": "His brother *Azam | fell in *battle | that same *year,"
+    },
+    {
+      "text": "and his brother Kaam Bukhsh died fighting him two years later.",
+      "caps": "and *Kam Bakhsh | died *fighting him | two years *later."
+    },
+    {
+      "text": "The old prince took the throne as Ba-haa-dur Shah the First.",
+      "caps": "The old prince | became *Bahadur | Shah the *First."
+    },
+    {
+      "text": "He had won the war.",
+      "caps": "He won | the *war."
+    },
+    {
+      "text": "Now he had to hold the empire together.",
+      "caps": "Now he had to | *hold it | *together.",
+      "gap": 0.5
+    },
+    {
+      "text": "His answer was simple: make peace with everyone.",
+      "caps": "His *answer: | make *peace | with everyone."
+    },
+    {
+      "text": "Shaa-hoo, the young Maratha prince held captive at the Moo-gul court,",
+      "caps": "*Shahu, | the Maratha *prince | held *captive"
+    },
+    {
+      "text": "was set free and sent home.",
+      "caps": "was set *free | and sent *home."
+    },
+    {
+      "text": "The Rajput kings were confirmed in their lands.",
+      "caps": "The *Rajput kings | *confirmed | in their lands."
+    },
+    {
+      "text": "Only in the Punjab did he send his armies,",
+      "caps": "Only in the *Punjab | did he send | his *armies,"
+    },
+    {
+      "text": "against the Sikh leader, Banda Bahadur.",
+      "caps": "against the Sikh leader, | *Banda Bahadur."
+    },
+    {
+      "text": "At court, he handed out titles and rewards to keep every faction happy.",
+      "caps": "Titles and *rewards | to keep every | faction *happy."
+    },
+    {
+      "text": "So the historian Kaafee Khan gave him a nickname:",
+      "caps": "Historian *Khafi Khan | gave him | a *nickname:"
+    },
+    {
+      "text": "Shah-ee Bekhabar.",
+      "caps": "*Shah-i-Bekhabar."
+    },
+    {
+      "text": "The unaware king.",
+      "caps": "The *unaware | king."
+    },
+    {
+      "text": "But the man who made peace with everyone",
+      "caps": "But the man | who made *peace | with everyone"
+    },
+    {
+      "text": "left no plan for who came next.",
+      "caps": "left no *plan | for who came *next.",
+      "gap": 0.7
+    },
+    {
+      "text": "In February seventeen twelve, Ba-haa-dur Shah died.",
+      "caps": "*February 1712, | Bahadur Shah | *died."
+    },
+    {
+      "text": "His four sons went to war, just as he had.",
+      "caps": "His four *sons | went to *war,"
+    },
+    {
+      "text": "The winner was Juh-haan-dar Shah.",
+      "caps": "The *winner: | *Jahandar Shah."
+    },
+    {
+      "text": "But the real power stood beside the throne.",
+      "caps": "But the real *power | stood *beside it."
+    },
+    {
+      "text": "His chief minister, Zulfikar Khan, ran the empire.",
+      "caps": "Chief minister | *Zulfikar Khan | ran the *empire."
+    },
+    {
+      "text": "Juh-haan-dar Shah held the crown. Zulfikar Khan held the keys.",
+      "caps": "Jahandar held | the *crown. | Zulfikar held | the *keys."
+    },
+    {
+      "text": "Zulfikar needed money fast,",
+      "caps": "He needed | *money fast,"
+    },
+    {
+      "text": "so he leaned on izara, revenue farming,",
+      "caps": "so: *izara, | revenue *farming,"
+    },
+    {
+      "text": "where the right to collect a district's taxes went to whoever bid the most.",
+      "caps": "a district's *taxes | went to whoever | bid the *most."
+    },
+    {
+      "text": "It brought in cash quickly, but it could squeeze the peasants hard.",
+      "caps": "Quick *cash, | but it squeezed | the *peasants."
+    },
+    {
+      "text": "Juh-haan-dar Shah also abolished the jiz-ya, the tax on non-Muslims.",
+      "caps": "Jahandar *abolished | the *jizya, | the tax on non-Muslims."
+    },
+    {
+      "text": "But his reign would last less than a year,",
+      "caps": "His reign | lasted *less | than a *year,"
+    },
+    {
+      "text": "because in the east, his nephew was raising an army.",
+      "caps": "because his *nephew | was raising | an *army.",
+      "gap": 0.45
+    },
+    {
+      "text": "His name was Furrook see-yar,",
+      "caps": "His name: | *Farrukhsiyar,"
+    },
+    {
+      "text": "and he had two powerful allies.",
+      "caps": "and two | powerful *allies."
+    },
+    {
+      "text": "The Sai-yid brothers.",
+      "caps": "The *Sayyid | *brothers."
+    },
+    {
+      "text": "Nobles from an old family of soldiers, with armies of their own.",
+      "caps": "An old family | of *soldiers, | with their own *armies."
+    },
+    {
+      "text": "Abdullah Khan, also called Hassan Ali,",
+      "caps": "*Abdullah Khan, | also called | Hassan *Ali,"
+    },
+    {
+      "text": "and his younger brother, Hussain Ali.",
+      "caps": "and his younger brother, | *Hussain Ali."
+    },
+    {
+      "text": "With their armies behind him, Furrook see-yar marched on Delhi.",
+      "caps": "With their *armies, | he marched | on *Delhi."
+    },
+    {
+      "text": "In seventeen thirteen, Juh-haan-dar Shah lost the throne, and his life.",
+      "caps": "In *1713, | Jahandar lost | the *throne, | and his *life."
+    },
+    {
+      "text": "The brothers took the top jobs.",
+      "caps": "The brothers | took the *top jobs."
+    },
+    {
+      "text": "One became chief minister. The other commanded the army.",
+      "caps": "One: chief *minister. | The other: | the *army."
+    },
+    {
+      "text": "Furrook see-yar wore the crown, but the brothers held the government.",
+      "caps": "He wore | the *crown. | They held | the *government."
+    },
+    {
+      "text": "Furrook see-yar abolished the jiz-ya again, and the pilgrimage tax too.",
+      "caps": "*Jizya | abolished again, | and the *pilgrimage tax."
+    },
+    {
+      "text": "And in seventeen seventeen, he signed royal orders called far-maans,",
+      "caps": "In *1717, | royal orders: | *farmans,"
+    },
+    {
+      "text": "letting the English East India Company trade in Bengal without paying customs duty.",
+      "caps": "the *English Company | trades in *Bengal | duty *free."
+    },
+    {
+      "text": "It looked like a small favour. But that trade would one day help the Company take Bengal itself.",
+      "caps": "A *small favour. | But one day, | it would help | take *Bengal itself."
+    },
+    {
+      "text": "Furrook see-yar thought the brothers worked for him.",
+      "caps": "He thought | the brothers | worked for *him."
+    },
+    {
+      "text": "He was about to learn the opposite.",
+      "caps": "He was about | to learn the *opposite.",
+      "gap": 0.7
+    },
+    {
+      "text": "For six years, he plotted to get rid of them,",
+      "caps": "For *six years, | he *plotted"
+    },
+    {
+      "text": "turning one noble after another against the brothers.",
+      "caps": "turning noble | after noble | *against them."
+    },
+    {
+      "text": "The brothers grew suspicious, and afraid.",
+      "caps": "The brothers grew | *suspicious, | and *afraid."
+    },
+    {
+      "text": "But the brothers struck first.",
+      "caps": "But the brothers | struck *first."
+    },
+    {
+      "text": "Hussain Ali marched north from the Deccan,",
+      "caps": "Hussain Ali | marched *north | from the *Deccan,"
+    },
+    {
+      "text": "and with him, according to the historian Ahir, came Maratha troops sent by the Pesh-wa, Baa-la-jee Vish-waa-nath.",
+      "caps": "with him, | *Maratha troops | sent by the Peshwa, | *Balaji Vishwanath."
+    },
+    {
+      "text": "In February seventeen nineteen, they seized the palace.",
+      "caps": "*February 1719, | they *seized | the palace."
+    },
+    {
+      "text": "Furrook see-yar was dragged out, blinded, and locked away.",
+      "caps": "Farrukhsiyar | *dragged out, | *blinded, | locked away."
+    },
+    {
+      "text": "Within weeks, he was killed in prison.",
+      "caps": "Within *weeks, | he was *killed | in prison."
+    },
+    {
+      "text": "No Moo-gul emperor had ever been killed by his own nobles before.",
+      "caps": "No Mughal emperor | killed by his own | *nobles before."
+    },
+    {
+      "text": "From now on, everyone knew the truth.",
+      "caps": "Now everyone | knew the *truth."
+    },
+    {
+      "text": "The throne belonged to whoever held the army.",
+      "caps": "The throne | belonged to whoever | held the *army.",
+      "gap": 0.5
+    },
+    {
+      "text": "So the brothers chose the next emperor themselves.",
+      "caps": "The brothers | *chose | the next emperor."
+    },
+    {
+      "text": "First, a young prince, Ra-fee ud Da-ra-jaat.",
+      "caps": "First: | *Rafi-ud-Darajat."
+    },
+    {
+      "text": "He reigned for just over three months.",
+      "caps": "Just over | *three months."
+    },
+    {
+      "text": "When he died, his older brother was crowned as Shaah Ja-haan the Second.",
+      "caps": "His brother | crowned as | *Shah Jahan II."
+    },
+    {
+      "text": "He lasted about three months too.",
+      "caps": "About three | months *too."
+    },
+    {
+      "text": "So the brothers needed a third puppet.",
+      "caps": "A *third | *puppet."
+    },
+    {
+      "text": "They chose a seventeen-year-old prince, Row-shun Akh-tar.",
+      "caps": "A *17-year-old | prince, | *Raushan Akhtar."
+    },
+    {
+      "text": "In September seventeen nineteen, he was crowned as Mohammed Shah.",
+      "caps": "*September 1719: | crowned *Muhammad Shah."
+    },
+    {
+      "text": "Four men on the throne in one year,",
+      "caps": "*Four men | on the throne | in *one year,"
+    },
+    {
+      "text": "and every one of them owed it to the same two brothers.",
+      "caps": "every one | owed it to | the same two *brothers."
+    },
+    {
+      "text": "The brothers thought a teenager would be easy to control.",
+      "caps": "A *teenager | would be easy | to *control."
+    },
+    {
+      "text": "They were wrong.",
+      "caps": "They were *wrong.",
+      "gap": 0.7
+    },
+    {
+      "text": "Mohammed Shah waited, and quietly found allies.",
+      "caps": "Muhammad Shah | *waited, | and found *allies."
+    },
+    {
+      "text": "The most important was Nizaam ul Mulk,",
+      "caps": "The most important: | *Nizam-ul-Mulk,"
+    },
+    {
+      "text": "a powerful noble with his own army in the Deccan.",
+      "caps": "a noble with | his own *army | in the *Deccan."
+    },
+    {
+      "text": "Together, they moved against the brothers.",
+      "caps": "Together, | they *moved | against the brothers."
+    },
+    {
+      "text": "In seventeen twenty, Hussain Ali was murdered on the march.",
+      "caps": "In *1720, | Hussain Ali | was *murdered."
+    },
+    {
+      "text": "Weeks later, Abdullah Khan was beaten in battle and taken prisoner.",
+      "caps": "Abdullah | *beaten in battle, | taken *prisoner."
+    },
+    {
+      "text": "He died in prison in seventeen twenty-two, poisoned.",
+      "caps": "Died in *1722, | *poisoned."
+    },
+    {
+      "text": "The kingmakers were gone.",
+      "caps": "The *kingmakers | were *gone."
+    },
+    {
+      "text": "But the damage was done.",
+      "caps": "But the *damage | was *done.",
+      "gap": 0.6
+    },
+    {
+      "text": "Once nobles could make and break emperors,",
+      "caps": "Once nobles | could *make | and *break emperors,"
+    },
+    {
+      "text": "the emperor stopped being the centre of everything.",
+      "caps": "the emperor | stopped being | the *centre."
+    },
+    {
+      "text": "Every governor and every general started building power of his own.",
+      "caps": "Every *governor, | every *general, | building their *own power."
+    },
+    {
+      "text": "In the years that followed, governors in the Deccan, Awadh and Bengal began to rule like kings.",
+      "caps": "*Deccan, | *Awadh, | *Bengal: | ruling like *kings."
+    },
+    {
+      "text": "The historian Sidney Owen put it bluntly.",
+      "caps": "Historian *Sidney Owen"
+    },
+    {
+      "text": "Ba-haa-dur Shah the First, he wrote, was the last emperor of whom anything favourable can be said.",
+      "caps": "Bahadur Shah I | \"was the *last Emperor | of whom anything | *favourable | can be said.\""
+    },
+    {
+      "text": "A harsh verdict, on every emperor who came after him.",
+      "caps": "A *harsh verdict | on every emperor | who came *after.",
+      "gap": 0.6
+    },
+    {
+      "text": "The empire did not fall in one battle.",
+      "caps": "Not in *one | *battle."
+    },
+    {
+      "text": "It fell when its throne became a prize that anyone with an army could give away.",
+      "caps": "It fell when | the throne became | a *prize | to give *away.",
+      "gap": 0.7
+    },
+    {
+      "text": "Mohammed Shah would rule for twenty-nine years.",
+      "caps": "Muhammad Shah | would rule | *29 years."
+    },
+    {
+      "text": "But in seventeen thirty-nine,",
+      "caps": "But in *1739,"
+    },
+    {
+      "text": "a king from Persia was coming for his throne.",
+      "caps": "a king from *Persia | was coming | for his *throne."
+    }
   ]
 }

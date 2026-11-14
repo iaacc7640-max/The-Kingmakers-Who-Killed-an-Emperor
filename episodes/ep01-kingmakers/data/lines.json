@@ -1,67 +1,661 @@
 {
- "duration": 40.924,
+ "duration": 383.91,
  "voice": "bm_george",
- "speed": 1.0,
+ "speed": 0.97,
  "lines": [
   {
    "i": 0,
-   "text": "In sixteen sixty-six, a tiny bakery fire burned down most of London.",
-   "start": 0.4,
-   "end": 5.46
+   "text": "In seventeen nineteen, two brothers had a Moo-gul emperor dragged from his palace,",
+   "start": 0.35,
+   "end": 5.09
   },
   {
    "i": 1,
-   "text": "It started just after midnight, in Thomas Farriner's bakery on Pudding Lane.",
-   "start": 5.76,
-   "end": 10.791
+   "text": "blinded and killed.",
+   "start": 5.46,
+   "end": 6.841
   },
   {
    "i": 2,
-   "text": "London was packed with wooden houses, and a strong wind was blowing,",
-   "start": 11.091,
-   "end": 15.321
+   "text": "No nobles had ever done that to an emperor before.",
+   "start": 7.161,
+   "end": 10.682
   },
   {
    "i": 3,
-   "text": "so the flames jumped from roof to roof.",
-   "start": 15.671,
-   "end": 17.947
+   "text": "And within a single year,",
+   "start": 11.002,
+   "end": 12.262
   },
   {
    "i": 4,
-   "text": "The Lord Mayor was woken up, but he shrugged it off.",
-   "start": 18.247,
-   "end": 21.175
+   "text": "four different men sat on the Moo-gul throne.",
+   "start": 12.632,
+   "end": 15.189
   },
   {
    "i": 5,
-   "text": "For four days, the city burned.",
-   "start": 21.475,
-   "end": 23.636
+   "text": "How did the greatest empire in the world",
+   "start": 15.509,
+   "end": 17.849
   },
   {
    "i": 6,
-   "text": "Thirteen thousand houses, eighty-seven churches, and St Paul's Cathedral were gone.",
-   "start": 23.936,
-   "end": 29.306
+   "text": "become a prize to be handed out?",
+   "start": 18.239,
+   "end": 20.353
   },
   {
    "i": 7,
-   "text": "In the end, they blew up whole streets to stop it spreading.",
-   "start": 29.606,
-   "end": 32.797
+   "text": "To see how, go back twelve years, to seventeen oh seven.",
+   "start": 20.953,
+   "end": 24.843
   },
   {
    "i": 8,
-   "text": "And when London was rebuilt, it was built in brick and stone.",
-   "start": 33.097,
-   "end": 36.797
+   "text": "The emperor Or-ung-zeb had ruled for nearly fifty years.",
+   "start": 25.163,
+   "end": 28.994
   },
   {
    "i": 9,
-   "text": "All because of one small bakery.",
-   "start": 37.097,
-   "end": 39.624
+   "text": "When he died, he left three sons, one empire,",
+   "start": 29.314,
+   "end": 32.344
+  },
+  {
+   "i": 10,
+   "text": "and no agreed heir.",
+   "start": 32.564,
+   "end": 33.754
+  },
+  {
+   "i": 11,
+   "text": "So the princes did what Moo-gul princes had always done.",
+   "start": 34.074,
+   "end": 37.818
+  },
+  {
+   "i": 12,
+   "text": "They fought.",
+   "start": 38.138,
+   "end": 39.017
+  },
+  {
+   "i": 13,
+   "text": "A Moo-gul throne was never simply inherited. It had to be won.",
+   "start": 39.337,
+   "end": 43.807
+  },
+  {
+   "i": 14,
+   "text": "The oldest, Prince Muazzam, was about sixty-three.",
+   "start": 44.127,
+   "end": 47.671
+  },
+  {
+   "i": 15,
+   "text": "He was no young warrior,",
+   "start": 47.991,
+   "end": 49.401
+  },
+  {
+   "i": 16,
+   "text": "but he won.",
+   "start": 49.691,
+   "end": 50.496
+  },
+  {
+   "i": 17,
+   "text": "His brother Aa-zum fell in battle that same year,",
+   "start": 50.816,
+   "end": 53.776
+  },
+  {
+   "i": 18,
+   "text": "and his brother Kaam Bukhsh died fighting him two years later.",
+   "start": 54.226,
+   "end": 57.98
+  },
+  {
+   "i": 19,
+   "text": "The old prince took the throne as Ba-haa-dur Shah the First.",
+   "start": 58.3,
+   "end": 62.157
+  },
+  {
+   "i": 20,
+   "text": "He had won the war.",
+   "start": 62.477,
+   "end": 63.817
+  },
+  {
+   "i": 21,
+   "text": "Now he had to hold the empire together.",
+   "start": 64.137,
+   "end": 66.656
+  },
+  {
+   "i": 22,
+   "text": "His answer was simple: make peace with everyone.",
+   "start": 67.156,
+   "end": 70.307
+  },
+  {
+   "i": 23,
+   "text": "Shaa-hoo, the young Maratha prince held captive at the Moo-gul court,",
+   "start": 70.627,
+   "end": 74.277
+  },
+  {
+   "i": 24,
+   "text": "was set free and sent home.",
+   "start": 74.697,
+   "end": 76.812
+  },
+  {
+   "i": 25,
+   "text": "The Rajput kings were confirmed in their lands.",
+   "start": 77.132,
+   "end": 80.317
+  },
+  {
+   "i": 26,
+   "text": "Only in the Punjab did he send his armies,",
+   "start": 80.637,
+   "end": 83.247
+  },
+  {
+   "i": 27,
+   "text": "against the Sikh leader, Banda Bahadur.",
+   "start": 83.597,
+   "end": 86.195
+  },
+  {
+   "i": 28,
+   "text": "At court, he handed out titles and rewards to keep every faction happy.",
+   "start": 86.515,
+   "end": 91.373
+  },
+  {
+   "i": 29,
+   "text": "So the historian Kaafee Khan gave him a nickname:",
+   "start": 91.693,
+   "end": 94.803
+  },
+  {
+   "i": 30,
+   "text": "Shah-ee Bekhabar.",
+   "start": 95.183,
+   "end": 96.365
+  },
+  {
+   "i": 31,
+   "text": "The unaware king.",
+   "start": 96.685,
+   "end": 98.091
+  },
+  {
+   "i": 32,
+   "text": "But the man who made peace with everyone",
+   "start": 98.411,
+   "end": 101.081
+  },
+  {
+   "i": 33,
+   "text": "left no plan for who came next.",
+   "start": 101.151,
+   "end": 103.189
+  },
+  {
+   "i": 34,
+   "text": "In February seventeen twelve, Ba-haa-dur Shah died.",
+   "start": 103.889,
+   "end": 107.489
+  },
+  {
+   "i": 35,
+   "text": "His four sons went to war, just as he had.",
+   "start": 107.809,
+   "end": 110.677
+  },
+  {
+   "i": 36,
+   "text": "The winner was Juh-haan-dar Shah.",
+   "start": 110.997,
+   "end": 113.248
+  },
+  {
+   "i": 37,
+   "text": "But the real power stood beside the throne.",
+   "start": 113.568,
+   "end": 116.297
+  },
+  {
+   "i": 38,
+   "text": "His chief minister, Zulfikar Khan, ran the empire.",
+   "start": 116.617,
+   "end": 120.405
+  },
+  {
+   "i": 39,
+   "text": "Juh-haan-dar Shah held the crown. Zulfikar Khan held the keys.",
+   "start": 120.725,
+   "end": 125.007
+  },
+  {
+   "i": 40,
+   "text": "Zulfikar needed money fast,",
+   "start": 125.327,
+   "end": 127.167
+  },
+  {
+   "i": 41,
+   "text": "so he leaned on izara, revenue farming,",
+   "start": 127.537,
+   "end": 130.447
+  },
+  {
+   "i": 42,
+   "text": "where the right to collect a district's taxes went to whoever bid the most.",
+   "start": 130.857,
+   "end": 134.938
+  },
+  {
+   "i": 43,
+   "text": "It brought in cash quickly, but it could squeeze the peasants hard.",
+   "start": 135.258,
+   "end": 139.055
+  },
+  {
+   "i": 44,
+   "text": "Juh-haan-dar Shah also abolished the jiz-ya, the tax on non-Muslims.",
+   "start": 139.375,
+   "end": 144.384
+  },
+  {
+   "i": 45,
+   "text": "But his reign would last less than a year,",
+   "start": 144.704,
+   "end": 146.984
+  },
+  {
+   "i": 46,
+   "text": "because in the east, his nephew was raising an army.",
+   "start": 147.334,
+   "end": 150.605
+  },
+  {
+   "i": 47,
+   "text": "His name was Furrook see-yar,",
+   "start": 151.055,
+   "end": 152.875
+  },
+  {
+   "i": 48,
+   "text": "and he had two powerful allies.",
+   "start": 153.225,
+   "end": 155.012
+  },
+  {
+   "i": 49,
+   "text": "The Sai-yid brothers.",
+   "start": 155.332,
+   "end": 156.742
+  },
+  {
+   "i": 50,
+   "text": "Nobles from an old family of soldiers, with armies of their own.",
+   "start": 157.062,
+   "end": 161.376
+  },
+  {
+   "i": 51,
+   "text": "Abdullah Khan, also called Hassan Ali,",
+   "start": 161.696,
+   "end": 164.296
+  },
+  {
+   "i": 52,
+   "text": "and his younger brother, Hussain Ali.",
+   "start": 164.666,
+   "end": 166.844
+  },
+  {
+   "i": 53,
+   "text": "With their armies behind him, Furrook see-yar marched on Delhi.",
+   "start": 167.164,
+   "end": 171.003
+  },
+  {
+   "i": 54,
+   "text": "In seventeen thirteen, Juh-haan-dar Shah lost the throne, and his life.",
+   "start": 171.323,
+   "end": 176.053
+  },
+  {
+   "i": 55,
+   "text": "The brothers took the top jobs.",
+   "start": 176.373,
+   "end": 178.357
+  },
+  {
+   "i": 56,
+   "text": "One became chief minister. The other commanded the army.",
+   "start": 178.677,
+   "end": 182.353
+  },
+  {
+   "i": 57,
+   "text": "Furrook see-yar wore the crown, but the brothers held the government.",
+   "start": 182.673,
+   "end": 186.654
+  },
+  {
+   "i": 58,
+   "text": "Furrook see-yar abolished the jiz-ya again, and the pilgrimage tax too.",
+   "start": 186.974,
+   "end": 191.575
+  },
+  {
+   "i": 59,
+   "text": "And in seventeen seventeen, he signed royal orders called far-maans,",
+   "start": 191.895,
+   "end": 196.585
+  },
+  {
+   "i": 60,
+   "text": "letting the English East India Company trade in Bengal without paying customs duty.",
+   "start": 197.015,
+   "end": 202.567
+  },
+  {
+   "i": 61,
+   "text": "It looked like a small favour. But that trade would one day help the Company take Bengal itself.",
+   "start": 202.887,
+   "end": 209.035
+  },
+  {
+   "i": 62,
+   "text": "Furrook see-yar thought the brothers worked for him.",
+   "start": 209.355,
+   "end": 212.316
+  },
+  {
+   "i": 63,
+   "text": "He was about to learn the opposite.",
+   "start": 212.636,
+   "end": 214.816
+  },
+  {
+   "i": 64,
+   "text": "For six years, he plotted to get rid of them,",
+   "start": 215.516,
+   "end": 218.146
+  },
+  {
+   "i": 65,
+   "text": "turning one noble after another against the brothers.",
+   "start": 218.516,
+   "end": 221.481
+  },
+  {
+   "i": 66,
+   "text": "The brothers grew suspicious, and afraid.",
+   "start": 221.801,
+   "end": 224.474
+  },
+  {
+   "i": 67,
+   "text": "But the brothers struck first.",
+   "start": 224.794,
+   "end": 226.549
+  },
+  {
+   "i": 68,
+   "text": "Hussain Ali marched north from the Deccan,",
+   "start": 226.869,
+   "end": 229.159
+  },
+  {
+   "i": 69,
+   "text": "and with him, according to the historian Ahir, came Maratha troops sent by the Pesh-wa, Baa-la-jee Vish-waa-nath.",
+   "start": 229.599,
+   "end": 237.256
+  },
+  {
+   "i": 70,
+   "text": "In February seventeen nineteen, they seized the palace.",
+   "start": 237.576,
+   "end": 241.175
+  },
+  {
+   "i": 71,
+   "text": "Furrook see-yar was dragged out, blinded, and locked away.",
+   "start": 241.495,
+   "end": 245.229
+  },
+  {
+   "i": 72,
+   "text": "Within weeks, he was killed in prison.",
+   "start": 245.549,
+   "end": 248.052
+  },
+  {
+   "i": 73,
+   "text": "No Moo-gul emperor had ever been killed by his own nobles before.",
+   "start": 248.372,
+   "end": 253.063
+  },
+  {
+   "i": 74,
+   "text": "From now on, everyone knew the truth.",
+   "start": 253.383,
+   "end": 255.944
+  },
+  {
+   "i": 75,
+   "text": "The throne belonged to whoever held the army.",
+   "start": 256.264,
+   "end": 259.234
+  },
+  {
+   "i": 76,
+   "text": "So the brothers chose the next emperor themselves.",
+   "start": 259.734,
+   "end": 262.842
+  },
+  {
+   "i": 77,
+   "text": "First, a young prince, Ra-fee ud Da-ra-jaat.",
+   "start": 263.162,
+   "end": 266.65
+  },
+  {
+   "i": 78,
+   "text": "He reigned for just over three months.",
+   "start": 266.97,
+   "end": 269.488
+  },
+  {
+   "i": 79,
+   "text": "When he died, his older brother was crowned as Shaah Ja-haan the Second.",
+   "start": 269.808,
+   "end": 274.299
+  },
+  {
+   "i": 80,
+   "text": "He lasted about three months too.",
+   "start": 274.619,
+   "end": 277.035
+  },
+  {
+   "i": 81,
+   "text": "So the brothers needed a third puppet.",
+   "start": 277.355,
+   "end": 279.884
+  },
+  {
+   "i": 82,
+   "text": "They chose a seventeen-year-old prince, Row-shun Akh-tar.",
+   "start": 280.204,
+   "end": 284.203
+  },
+  {
+   "i": 83,
+   "text": "In September seventeen nineteen, he was crowned as Mohammed Shah.",
+   "start": 284.523,
+   "end": 289.046
+  },
+  {
+   "i": 84,
+   "text": "Four men on the throne in one year,",
+   "start": 289.366,
+   "end": 291.766
+  },
+  {
+   "i": 85,
+   "text": "and every one of them owed it to the same two brothers.",
+   "start": 292.146,
+   "end": 295.183
+  },
+  {
+   "i": 86,
+   "text": "The brothers thought a teenager would be easy to control.",
+   "start": 295.503,
+   "end": 299.191
+  },
+  {
+   "i": 87,
+   "text": "They were wrong.",
+   "start": 299.511,
+   "end": 300.484
+  },
+  {
+   "i": 88,
+   "text": "Mohammed Shah waited, and quietly found allies.",
+   "start": 301.184,
+   "end": 304.598
+  },
+  {
+   "i": 89,
+   "text": "The most important was Nizaam ul Mulk,",
+   "start": 304.918,
+   "end": 307.488
+  },
+  {
+   "i": 90,
+   "text": "a powerful noble with his own army in the Deccan.",
+   "start": 307.898,
+   "end": 311.106
+  },
+  {
+   "i": 91,
+   "text": "Together, they moved against the brothers.",
+   "start": 311.426,
+   "end": 313.993
+  },
+  {
+   "i": 92,
+   "text": "In seventeen twenty, Hussain Ali was murdered on the march.",
+   "start": 314.313,
+   "end": 318.602
+  },
+  {
+   "i": 93,
+   "text": "Weeks later, Abdullah Khan was beaten in battle and taken prisoner.",
+   "start": 318.922,
+   "end": 323.437
+  },
+  {
+   "i": 94,
+   "text": "He died in prison in seventeen twenty-two, poisoned.",
+   "start": 323.757,
+   "end": 327.38
+  },
+  {
+   "i": 95,
+   "text": "The kingmakers were gone.",
+   "start": 327.7,
+   "end": 329.588
+  },
+  {
+   "i": 96,
+   "text": "But the damage was done.",
+   "start": 329.908,
+   "end": 331.695
+  },
+  {
+   "i": 97,
+   "text": "Once nobles could make and break emperors,",
+   "start": 332.295,
+   "end": 334.785
+  },
+  {
+   "i": 98,
+   "text": "the emperor stopped being the centre of everything.",
+   "start": 335.185,
+   "end": 338.093
+  },
+  {
+   "i": 99,
+   "text": "Every governor and every general started building power of his own.",
+   "start": 338.413,
+   "end": 342.861
+  },
+  {
+   "i": 100,
+   "text": "In the years that followed, governors in the Deccan, Awadh and Bengal began to rule like kings.",
+   "start": 343.181,
+   "end": 349.396
+  },
+  {
+   "i": 101,
+   "text": "The historian Sidney Owen put it bluntly.",
+   "start": 349.716,
+   "end": 352.682
+  },
+  {
+   "i": 102,
+   "text": "Ba-haa-dur Shah the First, he wrote, was the last emperor of whom anything favourable can be said.",
+   "start": 353.002,
+   "end": 359.247
+  },
+  {
+   "i": 103,
+   "text": "A harsh verdict, on every emperor who came after him.",
+   "start": 359.567,
+   "end": 363.155
+  },
+  {
+   "i": 104,
+   "text": "The empire did not fall in one battle.",
+   "start": 363.755,
+   "end": 366.613
+  },
+  {
+   "i": 105,
+   "text": "It fell when its throne became a prize that anyone with an army could give away.",
+   "start": 366.933,
+   "end": 372.177
+  },
+  {
+   "i": 106,
+   "text": "Mohammed Shah would rule for twenty-nine years.",
+   "start": 372.877,
+   "end": 376.067
+  },
+  {
+   "i": 107,
+   "text": "But in seventeen thirty-nine,",
+   "start": 376.387,
+   "end": 378.067
+  },
+  {
+   "i": 108,
+   "text": "a king from Persia was coming for his throne.",
+   "start": 378.417,
+   "end": 381.19
   }
  ]
 }

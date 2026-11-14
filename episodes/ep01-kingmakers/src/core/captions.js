@@ -6,7 +6,7 @@ import { ctx, C, clamp, lerp, seg, eob } from './lib.js';
 import { T, lineWords } from './timing.js';
 import { captionStrip, CAPLOOK } from './kit.js';
 
-export const CAP = { y: 1400, size: 150, maxW: 900 };
+export const CAP = { y: 958, size: 68, maxW: 1500 };
 let caps = [];
 
 function autoChunks(text) {
@@ -29,7 +29,9 @@ export function buildCaptions(script) {
       let idx = j === 0 ? 0 : ws.findIndex((w, k) => k > from && first && (nm(w.w) === first || (first.length > 2 && nm(w.w).startsWith(first))));
       if (idx < 0) idx = Math.max(from + (j ? 1 : 0), Math.min(ws.length - 1, Math.round(acc * ws.length / N)));
       acc += counts[j]; from = idx;
-      caps.push({ line: i, s: ws[idx].s - 0.05, words: c.split(/\s+/).map((w) => ({ txt: w.replace('*', ''), hi: w.startsWith('*') })) });
+      let wl = c.split(/\s+/).map((w) => ({ txt: w.replace('*', ''), hi: w.startsWith('*') }));
+      if (!wl.some((w) => w.hi)) { let b = 0; wl.forEach((w, q) => { if (w.txt.replace(/[^A-Za-z0-9]/g, '').length > wl[b].txt.replace(/[^A-Za-z0-9]/g, '').length) b = q; }); wl[b].hi = true; }
+      caps.push({ line: i, s: caps.length === 0 ? 0 : ws[idx].s - 0.05, words: wl });
     });
   });
   caps.forEach((c, k) => {
@@ -43,5 +45,6 @@ export const captionList = () => caps;
 export function drawCaption(t) {
   const c = caps.find((c) => t >= c.s && t < c.e); if (!c) return;
   const lt = t - c.s, sc = lt < 0.18 ? lerp(0.7, 1, eob(seg(lt, 0, 0.18))) : 1;
-  captionStrip(c.words, 540, CAPLOOK.y, sc);
+  const endZone = t > T.dur - 20;   // keep the bottom-right 420x260 clear for end-screen elements
+  captionStrip(c.words, endZone ? 760 : 960, CAPLOOK.y, sc, endZone ? { ...CAPLOOK, maxW: 1000 } : CAPLOOK);
 }

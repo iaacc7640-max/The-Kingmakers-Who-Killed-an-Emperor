@@ -1,0 +1,11 @@
+{
+  "_note": "Series anchor map (Part A, A4). Each episode's first map beat opens on the state the previous episode ended on, then changes it, and saves its end state here. Territories are lon/lat polygons drawn with K.inkBleed; colours are the series colours in kit.js (P.*).",
+  "start": { "year": 1707, "mughal": "MUGHAL1707 (kit.js), full green", "pins": [] },
+  "ep01_end": {
+    "year": 1720,
+    "episode": "ep01-kingmakers",
+    "mughal": "MUGHAL1707, still full green (no territory changes in Ep 1)",
+    "pins": [ { "place": "Calcutta", "lonlat": [88.4, 22.6], "color": "eic #A8322D", "note": "1717 farmans" } ],
+    "hints_shown": [ "governors' flags in the Deccan (#3F7F6A), Awadh (#7A4B6B), Bengal (#6F7A3A) as a tease only", "turquoise Persian arrow toward Delhi (tease for Ep 2)" ]
+  }
+}
