@@ -1,6 +1,7 @@
 // ClearCut History · Paper Atlas 16:9 kit (series kit for "The Fall of the Mughals").
 // Everything is cut paper on parchment: a light paper edge + a soft drop shadow. Maps are drawn in code.
 import { ctx, W, H, TAU, lerp, clamp, seg, eo, eob, eio, rnd, rr, circle, ell, line } from './lib.js';
+import { LAND } from './india-land.js';
 
 export const P = {
   parch: '#E9DCBC', parchDark: '#D6C39B', ink: '#3E2C1E', sepia: '#8A6A48', crimson: '#A8322D', gold: '#C8952F', goldDark: '#A87A22',
@@ -99,9 +100,10 @@ export function beatCard(year, words, lt) {
 }
 /** small era bar at the top: year + beat name */
 export function eraBar(year, text, a = 1) {
-  if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.font = `700 30px ${SERIF}`; const s = `${year}  ·  ${text}`; const w = ctx.measureText(s).width + 70;
-  cut(P_rr(W / 2 - w / 2, 44, w, 54, 4), P.cream, { shadow: 0.5 }); rr(W / 2 - w / 2, 44, 10, 54, 2); ctx.fillStyle = P.gold; ctx.fill();
-  ctx.fillStyle = P.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.letterSpacing = '2px'; ctx.fillText(s, W / 2 + 4, 73); ctx.letterSpacing = '0px'; ctx.restore();
+  // top-left corner (title-safe x 96), so it never sits on the centred labels
+  if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.font = `700 26px ${SERIF}`; const s = `${year}  ·  ${text}`; const w = ctx.measureText(s).width + 90, x0 = 96;
+  cut(P_rr(x0, 40, w, 48, 4), P.cream, { shadow: 0.5 }); rr(x0, 40, 9, 48, 2); ctx.fillStyle = P.gold; ctx.fill();
+  ctx.fillStyle = P.ink; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.letterSpacing = '2px'; ctx.fillText(s, x0 + 32, 66); ctx.letterSpacing = '0px'; ctx.restore();
 }
 
 // ═════════════ IDLE MOTION ═════════════
@@ -115,19 +117,22 @@ export const idle = {
 
 // ═════════════ INDIA MAP ═════════════
 // equirectangular projection; view = { cx, cy (lon/lat at screen centre), s (px per degree) }
-export const VIEW = { cx: 79, cy: 20.5, s: 31 };
-export function proj(lon, lat, v = VIEW) { return [W / 2 + (lon - v.cx) * v.s * 0.93, H / 2 - (lat - v.cy) * v.s]; }
-const COAST = [[58, 25.3], [61.6, 25.2], [64.5, 25.3], [66.6, 25.4], [67.0, 24.8], [68.2, 23.7], [68.8, 22.8], [70.0, 22.9], [69.0, 22.3], [70.0, 21.0], [71.0, 20.8], [72.6, 21.6], [72.8, 20.0], [72.9, 18.9], [73.3, 17.0], [73.8, 15.5], [74.8, 12.8], [75.8, 11.2], [76.3, 9.5], [77.5, 8.1], [78.2, 8.9], [79.0, 9.3], [79.8, 10.3], [79.8, 11.9], [80.3, 13.1], [80.1, 15.2], [81.0, 16.0], [82.3, 16.6], [83.4, 17.7], [85.0, 19.3], [86.5, 20.2], [87.0, 21.5], [88.2, 21.7], [89.0, 21.9], [90.5, 22.4], [91.8, 22.3], [92.3, 21.0], [92.6, 19.5], [94.2, 18.0], [94.4, 16.0], [97.6, 16.5], [98.5, 14.0], [100, 13], [130, 13], [130, 60], [30, 60], [30, 25.3]];
-const LANKA = [[79.8, 6.1], [80.6, 5.9], [81.8, 7.1], [81.4, 8.6], [80.3, 9.8], [79.8, 8.2]];
-const MUGHAL1707 = [[61.6, 25.0], [61.5, 29.5], [62.5, 31.5], [64.0, 33.8], [66.5, 35.2], [69.5, 35.6], [72.0, 35.4], [74.5, 34.8], [76.0, 33.0], [77.4, 31.6], [79.5, 30.4], [81.0, 29.2], [84.0, 27.4], [88.0, 26.6], [89.8, 26.2], [92.0, 25.1], [92.4, 22.0], [90.0, 21.0], [86.0, 19.6], [84.6, 18.4], [82.0, 16.0], [80.5, 13.4], [80.2, 11.6], [78.6, 11.0], [77.0, 11.6], [75.6, 12.6], [74.6, 14.6], [73.6, 15.6], [72.0, 18.0], [70.0, 19.0], [66.0, 22.0]];
+export const VIEW = { cx: 80, cy: 20.2, s: 31 };
+/** a simple conic-style projection (east-west distances shrink with latitude, as on the Survey of India sheets) */
+export function proj(lon, lat, v = VIEW) { return [W / 2 + (lon - v.cx) * Math.cos(lat * Math.PI / 180) * v.s * 1.04, H / 2 - (lat - v.cy) * v.s]; }
+// Mughal Empire at Aurangzeb's death, 1707 (approximate): Kabul and Kashmir to Bengal and Chittagong, the Deccan to the
+// Carnatic; not the far south, Assam or the Himalayan kingdoms. Clipped to the coastline when drawn.
+export const MUGHAL1707 = [[66.4, 24.5], [66.8, 27.5], [66.3, 29.6], [67.6, 31.2], [68.3, 32.8], [67.3, 34.0], [68.6, 35.3], [70.6, 35.6], [71.8, 36.1], [73.6, 35.6], [75.4, 35.0], [76.6, 34.2], [76.1, 33.3], [76.8, 32.3], [77.8, 31.1], [79.1, 30.2], [80.2, 28.9], [82.0, 27.6], [84.1, 27.4], [86.0, 26.7], [88.1, 26.6], [89.8, 26.3], [91.6, 25.3], [92.3, 24.0], [92.6, 22.0], [91.5, 20.0], [87.0, 19.0], [85.5, 19.3], [84.3, 18.0], [82.6, 16.6], [81.3, 15.6], [80.6, 13.5], [80.1, 12.0], [79.0, 11.7], [77.6, 12.4], [76.2, 13.4], [75.0, 14.6], [74.0, 15.6], [72.0, 17.0], [70.0, 20.0], [67.5, 22.5]];
 export const PLACES = { Delhi: [77.2, 28.6], Agra: [78.0, 27.2], Lahore: [74.3, 31.5], Kabul: [69.2, 34.5], Aurangabad: [75.3, 19.9], Hyderabad: [78.5, 17.4], Calcutta: [88.4, 22.6], Patna: [85.1, 25.6], Dhaka: [90.4, 23.8], Satara: [74.0, 17.7], Ajmer: [74.6, 26.4], Sirhind: [76.4, 30.6], Jajau: [77.9, 26.9], Murshidabad: [88.3, 24.2], Lucknow: [80.9, 26.8] };
+const HIMALAYA = [[73.6, 35.6], [75.2, 34.6], [76.8, 33.4], [78.4, 32.0], [79.9, 30.8], [81.6, 29.9], [83.4, 29.0], [85.2, 28.4], [87.0, 28.1], [88.8, 28.0], [90.6, 28.0], [92.4, 28.1], [94.2, 28.6]];
+export function landPath(v = VIEW) { ctx.beginPath(); for (const poly of LAND) { poly.forEach(([lo, la], i) => { const [x, y] = proj(lo, la, v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath(); } }
 const ptsP = (pts, v) => pts.map(([lo, la]) => proj(lo, la, v));
 /** noise-edged blob that grows from (ox, oy) as p goes 0..1 (ink-bleed wipe); used as a clip path */
 export function bleedPath(ox, oy, p, R = 1400, seed = 1) { ctx.beginPath(); const n = 90; for (let i = 0; i <= n; i++) { const a = i / n * TAU, k = 1 + 0.16 * Math.sin(5 * a + seed) + 0.09 * Math.sin(11 * a + seed * 3) + 0.05 * Math.sin(23 * a + seed * 7); const r = R * eio(clamp(p)) * k; i ? ctx.lineTo(ox + Math.cos(a) * r, oy + Math.sin(a) * r) : ctx.moveTo(ox + Math.cos(a) * r, oy + Math.sin(a) * r); } ctx.closePath(); }
 /** territory with an ink-bleed wipe: poly in lon/lat, p 0..1 from origin [lon, lat] */
 export function inkBleed(poly, fill, p, origin, v = VIEW, seed = 2, landClip = true) {
   if (p <= 0) return; const [ox, oy] = proj(origin[0], origin[1], v);
-  ctx.save(); if (landClip) { P_poly(ptsP(COAST, v))(); ctx.clip(); } bleedPath(ox, oy, p, 1600 * v.s / 34, seed); ctx.clip();
+  ctx.save(); if (landClip) { landPath(v); ctx.clip(); } bleedPath(ox, oy, p, 1600 * v.s / 34, seed); ctx.clip();
   P_poly(ptsP(poly, v))(); ctx.fillStyle = fill; ctx.globalAlpha = 0.9; ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = 'rgba(30,20,10,0.55)'; ctx.lineWidth = 3; ctx.setLineDash([10, 7]); ctx.stroke(); ctx.setLineDash([]);
   ctx.restore();
 }
@@ -139,16 +144,18 @@ export function indiaMap(o = {}) {
   ctx.save(); ctx.fillStyle = P.ocean; ctx.fillRect(-400, -400, W + 800, H + 800);
   ctx.strokeStyle = 'rgba(233,220,188,0.13)'; ctx.lineWidth = 3; for (let r = 0; r < 14; r++) { ctx.beginPath(); const y0 = r * 90 - 60; for (let x = -400; x <= W + 400; x += 30) ctx.lineTo(x, y0 + Math.sin(x * 0.01 + t * 0.8 + r) * 8); ctx.stroke(); }
   ctx.restore();
-  cut(P_poly(ptsP(COAST, v)), P.land, { shadow: 1.2, edge: 4 }); cut(P_poly(ptsP(LANKA, v)), P.land, { shadow: 1, edge: 4 });
-  // faint graticule on land
-  ctx.save(); P_poly(ptsP(COAST, v))(); ctx.clip(); ctx.strokeStyle = 'rgba(62,44,30,0.08)'; ctx.lineWidth = 2; for (let lo = 60; lo <= 100; lo += 5) { const [x] = proj(lo, 0, v); ctx.beginPath(); ctx.moveTo(x, -400); ctx.lineTo(x, H + 400); ctx.stroke(); } for (let la = 5; la <= 40; la += 5) { const [, y] = proj(0, la, v); ctx.beginPath(); ctx.moveTo(-400, y); ctx.lineTo(W + 400, y); ctx.stroke(); } ctx.restore();
-  // Himalaya hint
-  for (let i = 0; i < 9; i++) { const [x, y] = proj(73 + i * 2.4, 34.2 - i * 0.75, v); cut(P_poly([[x - 34, y + 14], [x, y - 30], [x + 34, y + 14]]), '#C9B48A', { shadow: 0.3, edge: 2 }); }
+  cut(() => landPath(v), P.land, { shadow: 1.2, edge: 4 });
+  // faint graticule on land (meridians curve with the projection)
+  ctx.save(); landPath(v); ctx.clip(); ctx.strokeStyle = 'rgba(62,44,30,0.09)'; ctx.lineWidth = 2;
+  for (let lo = 55; lo <= 105; lo += 5) { ctx.beginPath(); for (let la = -2; la <= 44; la += 2) { const [x, y] = proj(lo, la, v); la > -2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); }
+  for (let la = 5; la <= 40; la += 5) { ctx.beginPath(); for (let lo = 50; lo <= 106; lo += 2) { const [x, y] = proj(lo, la, v); lo > 50 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); } ctx.restore();
+  // Himalaya: a row of paper peaks along the range
+  HIMALAYA.forEach(([lo, la]) => { const [x, y] = proj(lo, la, v), k = v.s / 31; cut(P_poly([[x - 30 * k, y + 12 * k], [x, y - 26 * k], [x + 30 * k, y + 12 * k]]), '#C9B48A', { shadow: 0.3, edge: 2 }); });
   if (o.mughal) inkBleed(MUGHAL1707, P.mughal, o.mughal, [77.2, 28.6], v, 2);
   if (o.extra) o.extra(v);
   // sea labels
-  label('ARABIAN SEA', ...proj(65.5, 15.5, v), 26, 'rgba(233,220,188,0.6)'); label('BAY OF BENGAL', ...proj(88.5, 15.5, v), 26, 'rgba(233,220,188,0.6)');
-  if (!o.noCompass) compass(...proj(95.5, 10, v), 0.5);
+  label('ARABIAN SEA', ...proj(66, 15.5, v), 26, 'rgba(233,220,188,0.6)'); label('BAY OF BENGAL', ...proj(88.5, 14.5, v), 26, 'rgba(233,220,188,0.6)');
+  if (!o.noCompass) compass(...proj(97, 11, v), 0.5);
   (o.pins || []).forEach((pn) => pin(pn, v, t));
 }
 export function pin(pn, v = VIEW, t = 0) {
@@ -204,7 +211,59 @@ export function ledger(x, y, s = 1, rot = 0, open = 1) { ctx.save(); ctx.transla
 export function coin(x, y, s = 1, rot = 0) { ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s); cut(P_circ(0, 0, 30), P.gold, { shadow: 0.6, edge: 2 }); ctx.beginPath(); ctx.arc(0, 0, 20, 0, TAU); ctx.strokeStyle = P.goldDark; ctx.lineWidth = 4; ctx.stroke(); ctx.restore(); }
 export function sword(x, y, s = 1, rot = 0) { ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s); cut(() => { ctx.beginPath(); ctx.moveTo(-6, 0); ctx.quadraticCurveTo(-10, -120, 20, -200); ctx.quadraticCurveTo(4, -110, 6, 0); ctx.closePath(); }, P.stone, { shadow: 0.5, edge: 2 }); cut(P_rr(-26, -4, 52, 12, 5), P.gold, { shadow: 0.4, edge: 2 }); cut(P_rr(-6, 6, 12, 40, 4), P.sepia, { shadow: 0.3, edge: 2 }); ctx.restore(); }
 export function torch(x, y, s = 1, t = 0, k = 0) { ctx.save(); ctx.translate(x, y); ctx.scale(s, s); const g = ctx.createRadialGradient(0, -80, 0, 0, -80, 260); g.addColorStop(0, 'rgba(242,170,70,0.32)'); g.addColorStop(1, 'rgba(242,170,70,0)'); ctx.fillStyle = g; ctx.fillRect(-260, -340, 520, 520); cut(P_rr(-10, -60, 20, 120, 4), P.sepia, { shadow: 0.5, edge: 2 }); const f = idle.flicker(t, k); ctx.save(); ctx.translate(0, -62); ctx.scale(f, f); cut(() => { ctx.beginPath(); ctx.moveTo(-24, 0); ctx.quadraticCurveTo(-30, -40, 0 + Math.sin(t * 7 + k) * 6, -90); ctx.quadraticCurveTo(30, -40, 24, 0); ctx.closePath(); }, P.crimson, { shadow: 0, edge: 2 }); cut(() => { ctx.beginPath(); ctx.moveTo(-13, 0); ctx.quadraticCurveTo(-14, -26, Math.sin(t * 9 + k) * 4, -56); ctx.quadraticCurveTo(14, -26, 13, 0); ctx.closePath(); }, '#F2C14E', { shadow: 0, edge: 0 }); ctx.restore(); ctx.restore(); }
-export function flag(x, y, s, t, color, k = 0) { ctx.save(); ctx.translate(x, y); ctx.scale(s, s); line([[0, 0], [0, -220]], P.sepia, 8); cut(() => { ctx.beginPath(); ctx.moveTo(0, -220); for (let i = 0; i <= 6; i++) ctx.lineTo(i * 26, -220 + Math.sin(t * 4 + i * 0.9 + k) * 8 * (i / 6)); for (let i = 6; i >= 0; i--) ctx.lineTo(i * 26, -150 + Math.sin(t * 4 + i * 0.9 + k) * 8 * (i / 6)); ctx.closePath(); }, color, { shadow: 0.4, edge: 2 }); ctx.restore(); }
+/** a flag on a pole. Mughal green → the Mughal alam (triangular pennant, gold stars, sun-and-lion emblem);
+ *  Maratha saffron → the Bhagwa Dhwaj (swallowtail); anything else → a plain banner in that colour. */
+export function flag(x, y, s, t, color, k = 0) {
+  if (color === P.mughal) return mughalFlag(x, y, s, t, k); if (color === P.maratha) return marathaFlag(x, y, s, t, k);
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s); line([[0, 0], [0, -220]], P.sepia, 8); cut(() => { ctx.beginPath(); ctx.moveTo(0, -220); for (let i = 0; i <= 6; i++) ctx.lineTo(i * 26, -220 + Math.sin(t * 4 + i * 0.9 + k) * 8 * (i / 6)); for (let i = 6; i >= 0; i--) ctx.lineTo(i * 26, -150 + Math.sin(t * 4 + i * 0.9 + k) * 8 * (i / 6)); ctx.closePath(); }, color, { shadow: 0.4, edge: 2 }); ctx.restore();
+}
+const wave = (t, k, u, a = 7) => Math.sin(t * 4 + u * 5 + k) * a * u;
+/** Mughal alam, after the reconstruction "Flag of the Mughal Empire (triangular).svg" (NikNaks, Wikimedia Commons, CC BY-SA 3.0):
+ *  a right-angled green pennant (#01411c), full height at the pole, tapering to the fly along the top edge; gold stars; gold sun with a crouching lion. */
+export function mughalFlag(x, y, s, t, k = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s); line([[0, 20], [0, -250]], P.sepia, 8); cut(P_circ(0, -254, 9), P.gold, { shadow: 0.3, edge: 2 });
+  const L = 190, Hh = 127, top = -240, pt = (u, v) => [u * L, top + Hh * v + wave(t, k, u)];   // u along the fly, v down from the top
+  const shape = () => { ctx.beginPath(); ctx.moveTo(...pt(0, 0)); for (let i = 1; i <= 8; i++) { const u = i / 8; ctx.lineTo(...pt(u, u)); } for (let i = 8; i >= 0; i--) { const u = i / 8; ctx.lineTo(...pt(u, 1)); } ctx.closePath(); };
+  cut(shape, '#01411c', { shadow: 0.5, edge: 2 });
+  ctx.save(); shape(); ctx.clip(); for (let i = 0; i < 26; i++) { const u = rnd(i + 3) * 0.95, v = u + rnd(i + 9) * (1 - u); const [sx, sy] = pt(u, v); circle(sx, sy, 2.2, '#fcd116'); } ctx.restore();
+  const [ex, ey] = pt(0.33, 0.68); ctx.save(); ctx.translate(ex, ey);
+  for (let i = 0; i < 12; i++) { const a = i / 12 * TAU; line([[Math.cos(a) * 12, Math.sin(a) * 12], [Math.cos(a) * 22, Math.sin(a) * 22]], '#fcd116', 3); }
+  circle(0, 0, 12, '#fcd116');
+  ctx.fillStyle = '#C8952F'; ctx.beginPath(); ctx.ellipse(-2, 9, 14, 6, 0, 0, TAU); ctx.fill(); circle(11, 4, 5.5, '#C8952F'); ctx.fillRect(-14, 10, 3, 6); ctx.fillRect(6, 10, 3, 6); line([[-15, 8], [-22, 2]], '#C8952F', 2.5);
+  ctx.restore(); ctx.restore();
+}
+/** Maratha Bhagwa Dhwaj, after "Flag of the Maratha Empire.svg" (public domain): saffron (#ff9700) swallowtail, 600x280 with a 240-deep notch */
+export function marathaFlag(x, y, s, t, k = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s); line([[0, 20], [0, -250]], P.sepia, 8); cut(P_circ(0, -254, 9), P.gold, { shadow: 0.3, edge: 2 });
+  const L = 180, Hh = 84, top = -240, pt = (u, v) => [u * L, top + Hh * v + wave(t, k, u)];
+  cut(() => { ctx.beginPath(); ctx.moveTo(...pt(0, 0)); for (let i = 1; i <= 8; i++) ctx.lineTo(...pt(i / 8, 0)); ctx.lineTo(...pt(0.6, 0.5)); ctx.lineTo(...pt(1, 1)); for (let i = 8; i >= 0; i--) ctx.lineTo(...pt(i / 8, 1)); ctx.closePath(); }, '#ff9700', { shadow: 0.5, edge: 2 });
+  ctx.restore();
+}
+// ═════════════ HANDS, CALENDAR, DOOR, CHEST, FIELDS ═════════════
+/** a big cut-paper hand. dir 1 = from the left, pointing right. open 0..1 */
+export function hand(x, y, s = 1, rot = 0, dir = 1, skin = '#D9A77E', sleeve = '#F3E9D2') {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s * dir, s);
+  cut(P_rr(-260, -46, 200, 92, 30), sleeve, { shadow: 0.7 }); cut(P_rr(-80, -52, 120, 104, 40), skin, { shadow: 0.6 });
+  for (let i = 0; i < 4; i++) cut(P_rr(20, -46 + i * 26, 70 - Math.abs(i - 1.5) * 10, 22, 11), skin, { shadow: 0.3, edge: 2 });
+  cut(P_rr(-20, -78, 22, 60, 11), skin, { shadow: 0.3, edge: 2 }); ctx.restore();
+}
+/** a hanging paper calendar showing `year`; flip 0..1 animates the top page lifting away */
+export function calendar(x, y, s, year, nextYear, flip = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  cut(P_rr(-230, -300, 460, 600, 10), P.wine, { shadow: 1 });
+  for (const dx of [-120, 0, 120]) { cut(P_rr(dx - 10, -330, 20, 60, 8), P.stone, { shadow: 0.3, edge: 2 }); }
+  const page = (yr) => { cut(P_rr(-205, -260, 410, 540, 6), P.cream, { shadow: 0.4, edge: 2 }); rr(-205, -260, 410, 90, 6); ctx.fillStyle = P.crimson; ctx.fill(); ctx.font = `700 46px ${SERIF}`; ctx.fillStyle = P.edge; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('YEAR', 0, -214); ctx.font = `400 210px Bebas`; ctx.fillStyle = P.ink; ctx.fillText(String(yr), 0, 50); for (let i = 0; i < 5; i++) line([[-150 + i * 75, 200], [-110 + i * 75, 200]], 'rgba(62,44,30,0.3)', 6); };
+  page(nextYear ?? year);
+  if (flip < 1) { ctx.save(); const k = eio(clamp(flip)); ctx.translate(0, -260); ctx.scale(1, Math.cos(k * Math.PI)); ctx.translate(0, 260); if (Math.cos(k * Math.PI) > 0) page(year); else { cut(P_rr(-205, -260, 410, 540, 6), P.parchDark, { shadow: 0.4, edge: 2 }); } ctx.restore(); }
+  ctx.restore();
+}
+/** a heavy palace door pair; close 0..1 swings them shut */
+export function doors(x, y, s, close = 1, fill = P.sandDark) { ctx.save(); ctx.translate(x, y); ctx.scale(s, s); cutArch(0, 0, 260, 700, '#140F0C'); for (const k of [-1, 1]) { const w = 250 * clamp(close); cut(P_rr(k > 0 ? 0 : -w, -560, w, 560, 4), fill, { shadow: 0.6, edge: 3 }); for (let i = 0; i < 3; i++) circle(k * w * 0.5, -460 + i * 180, 10, P.gold); } ctx.restore(); }
+/** a treasury chest; open 0..1; coins 0..1 how full */
+export function chest(x, y, s, open = 1, coins = 0) { ctx.save(); ctx.translate(x, y); ctx.scale(s, s); cut(P_rr(-170, -150, 340, 150, 10), P.sepia); for (let i = 0; i < Math.round(coins * 14); i++) coin(-130 + (i % 7) * 44, -150 - Math.floor(i / 7) * 22 + 10, 0.7); for (const dx of [-120, 120]) cut(P_rr(dx - 12, -150, 24, 150, 4), P.gold, { shadow: 0.2, edge: 2 }); ctx.save(); ctx.translate(0, -150); ctx.rotate(-1.9 * clamp(open)); cut(P_rr(-170, -60, 340, 60, 14), P.sepiaDark || '#6E5238', { shadow: 0.5 }); ctx.restore(); ctx.restore(); }
+/** a field with crop rows (paper strips) from y0 down to y1 */
+export function field(y0, y1, t, ripe = 0) { cut(P_rr(-400, y0, W + 800, y1 - y0 + 400), '#9C8C5A', { shadow: 0, edge: 0 }); for (let i = 0; i < 9; i++) { const y = y0 + 20 + i * (y1 - y0) / 9; ctx.save(); ctx.strokeStyle = ripe ? '#C9A64A' : '#7E8B5A'; ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.beginPath(); for (let x = -200; x <= W + 200; x += 40) ctx.lineTo(x, y + Math.sin(x * 0.02 + t * 2 + i) * 4); ctx.stroke(); ctx.restore(); } }
+
 
 // ═════════════ PLACES: the Mughal court set ═════════════
 /** red sandstone hall: cusped arches, a jharokha balcony, throne platform. o = { night, t, throne: true, jharokha } */

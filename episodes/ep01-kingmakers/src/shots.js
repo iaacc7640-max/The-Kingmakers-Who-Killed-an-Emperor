@@ -24,6 +24,20 @@ function cracks(cx, cy, p, seed = 1, color = P.ink) { if (p <= 0) return; ctx.sa
 function prizeTag(x, y, s) { if (s <= 0) return; ctx.save(); ctx.translate(x, y); ctx.scale(s, s); line([[0, -60], [0, 0]], P.ink, 3); cut(P_poly([[-90, 0], [90, 0], [110, 40], [90, 80], [-90, 80]]), P.gold, { shadow: 0.7 }); circle(-60, 40, 10, P.edge); ctx.font = '400 54px Bebas'; ctx.fillStyle = P.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('PRIZE', 14, 44); ctx.restore(); }
 function letter(x, y, s, rot = 0) { ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s); cut(P_rr(-70, -46, 140, 92, 4), P.cream, { shadow: 0.6 }); line([[-70, -46], [0, 6], [70, -46]], 'rgba(62,44,30,0.4)', 3); K.seal(0, 8, 0.32); ctx.restore(); }
 function soldiers(x0, y, n, s, t, color, dx = 90) { for (let i = 0; i < n; i++) K.flag(x0 + i * dx, y + (i % 2) * 24, s, t, color, i); }
+/** two guards drag a figure (the emperor) by the arms, to the left; blindfold appears from blindAt (local time) when > 0 */
+function dragGroup(ex, t, lt, h, blindAt) {
+  K.figure({ x: ex - 175, y: FLOOR + 30, h, t, k: 4, walk: lt * 6, jama: '#4A3A2E', turban: '#2A211A', beard: 'black', arm: 72 });
+  ctx.save(); ctx.translate(ex, FLOOR + 30); ctx.rotate(0.12 + Math.sin(lt * 9) * 0.02); ctx.translate(-ex, -(FLOOR + 30));
+  person('farrukh', { x: ex, y: FLOOR + 30, h, t, k: 2, arm: 95, brows: 'worried', halo: false, walk: lt * 3 }); if (blindAt > 0 && lt > blindAt) blindfold(ex, FLOOR + 30, h, eo(clamp((lt - blindAt) / 0.35)));
+  ctx.restore();
+  K.figure({ x: ex + 165, y: FLOOR + 30, h, t, k: 5, walk: lt * 6, jama: '#4A3A2E', turban: '#2A211A', beard: 'black', arm: 62, dir: -1 });
+}
+/** a dark cloth band over a figure's eyes (figure drawn at x, y with height h, facing right) */
+function blindfold(x, y, h, p) { if (p <= 0) return; const sc = h / 520; ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc); cut(P_rr(-50, -446, 108 * p, 34, 8), '#16110D', { shadow: 0.3, edge: 2 }); if (p > 0.9) cut(P_poly([[-50, -440], [-82, -420], [-74, -404], [-50, -418]]), '#16110D', { shadow: 0.2, edge: 2 }); ctx.restore(); }
+/** two heavy doors slide shut over the whole frame; p 0..1 */
+function slamDoors(p) { if (p <= 0) return; for (const k of [-1, 1]) { const w = (W / 2 + 60) * p; ctx.save(); ctx.translate(k < 0 ? -60 : W + 60, 0); cut(P_rr(k < 0 ? 0 : -w, -400, w, H + 800, 4), '#5A2C22', { shadow: 1.2, edge: 3 }); for (let i = 0; i < 3; i++) circle(k < 0 ? w - 80 : -w + 80, 250 + i * 260, 14, P.gold); ctx.restore(); } }
+/** a sickle swinging at (x, y) */
+function sickle(x, y, t, k) { ctx.save(); ctx.translate(x, y); ctx.rotate(Math.sin(t * 6 + k) * 0.6); line([[0, 0], [0, 50]], P.sepia, 7); ctx.beginPath(); ctx.arc(16, 62, 20, Math.PI * 0.5, Math.PI * 1.7); ctx.strokeStyle = P.stone; ctx.lineWidth = 7; ctx.stroke(); ctx.restore(); }
 const persianArrow = (v, p) => K.route([[58.5, 33.5], [63, 33], [67.5, 33.2], [71.5, 31.5], [75.2, 29.6]], p, P.persia, v, (x, y, a) => { ctx.save(); ctx.translate(x, y); ctx.rotate(a); cut(P_poly([[24, 0], [-14, -20], [-14, 20]]), P.persia, { shadow: 0.5, edge: 2 }); ctx.restore(); });
 
 export function buildShots() {
@@ -31,42 +45,57 @@ export function buildShots() {
   const add = (o) => (S.push(o), o);
   const cue = (t, type, o = {}) => CUES.push({ t: +t.toFixed(3), type, ...o });
   // ev(t, kind): event log + motion → sound map (sfxFor)
-  const SFX = { pop: ['pop', 0.5], slip: ['rustle', 0.8], stamp: ['seal', 1], whip: ['whoosh', 1], map: ['rustle', 0.7], coin: ['coins', 0.8], crown: ['roll', 0.9], write: ['scribble', 0.8], battle: ['cannon', 0.8], march: ['hooves', 0.7], court: ['murmur', 0.8], snuff: ['hush', 0.8], hush: ['hush', 0.7], step: ['steps', 0.8], snap: ['snap', 0.9], thump: ['thump', 0.8], sword: ['ring', 0.5], bells: ['bells', 0.6], sting: ['sting', 1], tick: ['tock', 0.5], slide: ['slide', 0.5] };
+  const SFX = { pop: ['pop', 0.5], slip: ['rustle', 0.8], stamp: ['seal', 1], whip: ['whoosh', 1], map: ['rustle', 0.7], coin: ['coins', 0.8], crown: ['roll', 0.9], write: ['scribble', 0.8], battle: ['cannon', 0.8], march: ['hooves', 0.7], court: ['murmur', 0.8], snuff: ['hush', 0.8], hush: ['hush', 0.7], slam: ['thump', 1.1], step: ['steps', 0.8], snap: ['snap', 0.9], thump: ['thump', 0.8], sword: ['ring', 0.5], bells: ['bells', 0.6], sting: ['sting', 1], tick: ['tock', 0.5], slide: ['slide', 0.5] };
   const sfxFor = (kind) => SFX[kind];
   const ev = (t, kind, o = {}) => { EV.push({ t: +t.toFixed(3), kind }); const s = sfxFor(kind); if (s && !o.silent) cue(t, s[0], { gain: (o.gain ?? 1) * s[1], ...(o.dur ? { dur: o.dur } : {}) }); };
   const at = (i) => (i === 0 ? 0 : L(i) - 0.1);
   const beat = (i, year, words) => { const t0 = at(i); BEATS.push({ at: t0, year, words }); ev(t0, 'whip'); return t0; };
 
   // ════════════ COLD OPEN (0:00-0:21) ════════════
-  add({ id: 'C1', at: 0, cam: { at: [960, 600], push: 0.10 }, note: 'night corridor, torches, two long shadows', draw(lt, d, t) { K.corridor(t, 0.15 + 0.7 * eio(clamp(lt / d))); } });
-  ev(0, 'step'); ev(0.9, 'step', { gain: 0.8 }); ev(1.8, 'step', { gain: 0.9 });
-  { const s = 2.5, stop = 4.3;
-    add({ id: 'C2', at: s, cam: { at: [960, 620], push: 0.05, z0: 1.25, snaps: [{ t: 0, z: 0.8 }] }, note: 'snap to the empty throne; a crown rolls to a stop', draw(lt, d, t) { nightCourt(t); const p = eo(clamp(lt / (stop - s))); K.crown(lerp(1500, 1120, p), 850 - Math.abs(Math.sin(p * 9)) * 18 * (1 - p), 0.8, lerp(5, 0, p) + (lt > stop - s ? Math.sin((lt - (stop - s)) * 14) * 0.06 * Math.exp(-(lt - (stop - s)) * 4) : 0), { plume: false }); } });
-    ev(s, 'crown', { dur: 1.6 }); ev(stop, 'thump', { gain: 0.6 }); }
-  { const s = L(1) - 0.05;
-    add({ id: 'C3', at: s, cam: { at: [960, 760], push: 0.08 }, note: 'a cloth drops on the throne steps (no violence)', draw(lt, d, t) { nightCourt(t); K.crown(1120, 850, 0.8, 0, { plume: false }); K.cloth(820, 900, 1.1, clamp(lt / 0.9), P.royal); K.candle(560, 900, 0.9, t, clamp((lt - 1.1) / 0.6)); } });
-    ev(s + 0.1, 'slide', { gain: 0.6 }); ev(s + 0.9, 'thump', { gain: 0.5 }); ev(s + 1.2, 'snuff'); }
+  // C1 · the two brothers stride down the night corridor with their guards
+  add({ id: 'C1', at: 0, cam: { at: [960, 620], push: 0.10 }, note: 'night corridor: the two Sayyid brothers stride forward, guards behind', draw(lt, d, t) { K.corridor(t, 0); const p = eio(clamp(lt / d));
+    for (const dx of [-340, 340]) K.figure({ x: 960 + dx * lerp(0.55, 1, p), y: lerp(690, 830, p), h: lerp(190, 330, p), t, k: 3, walk: lt * 5, jama: '#4A3A2E', turban: '#2A211A', beard: 'black', prop: 'sword', dir: dx > 0 ? -1 : 1 });
+    for (const [k, dx] of [[0, -140], [1, 140]]) person(k ? 'hussain' : 'abdullah', { x: 960 + dx * lerp(0.6, 1, p), y: lerp(720, 920, p), h: lerp(260, 480, p), t, k, walk: lt * 5 + k, brows: 'cold', dir: k ? -1 : 1, prop: null });
+    K.slip('THE SAYYID BROTHERS', 960, 150, pop(lt, 0.5), -0.02, 40, { color: P.crimson }); } });
+  ev(0, 'step'); ev(0.5, 'slip'); ev(1.0, 'step', { gain: 0.8 }); ev(1.9, 'step', { gain: 0.9 });
+  { const s = 2.5, dr = Wd('dragged', 0) - s;
+    add({ id: 'C2', at: s, cam: { pan: [[1080, 560], [880, 560]], push: 0.05 }, note: 'guards drag Emperor Farrukhsiyar out of the throne room; the brothers watch; his crown falls', draw(lt, d, t) { nightCourt(t);
+      const p = eio(clamp((lt - 0.1) / (d - 0.1))), ex = lerp(1120, 660, p);
+      person('abdullah', { x: 1580, y: FLOOR + 40, h: 520, t, brows: 'cold', dir: -1, prop: null }); person('hussain', { x: 1780, y: FLOOR + 40, h: 520, t, k: 1, brows: 'cold', dir: -1, prop: null });
+      dragGroup(ex, t, lt, 470, 0);
+      const cf = clamp((lt - dr) / 1.0); K.crown(lerp(ex + 40, ex + 420, eo(cf)), lerp(FLOOR - 400, FLOOR + 10, cf * cf), 0.3 + 0.12 * cf, cf * 6, { plume: false });
+      K.slip('EMPEROR FARRUKHSIYAR', ex, 140, pop(lt, 0.2), -0.02, 38); } });
+    ev(s + 0.2, 'slip'); ev(s + 0.4, 'step'); ev(s + 1.1, 'step'); ev(s + dr, 'crown', { dur: 1 }); ev(s + 2.2, 'step'); }
+  { const s = L(1) - 0.05, bl = Wd('blinded', 1) - s, ki = Wd('killed', 1) - s;
+    add({ id: 'C3', at: s, cam: { at: [960, 520], push: 0.06 }, note: 'a blindfold over the emperor’s eyes; the doors slam shut; a candle goes out (nothing violent shown)', draw(lt, d, t) { K.nightPage(3, 0.86);
+      person('farrukh', { x: 880, y: 1560, h: 1300, t, brows: 'worried', halo: false, prop: null }); blindfold(880, 1560, 1300, eo(clamp((lt - bl + 0.1) / 0.35)));
+      K.candle(1540, 1000, 1.3, t, clamp((lt - ki - 0.15) / 0.5)); slamDoors(eo(clamp((lt - ki + 0.05) / 0.3))); } });
+    ev(s + bl - 0.1, 'slide', { gain: 0.6 }); ev(s + ki, 'slam'); ev(s + ki + 0.2, 'snuff'); }
   { const s = L(2) - 0.1, ever = Wd('ever', 2) - s;
     add({ id: 'C4', at: s, cam: { pan: [[820, 560], [1100, 540]], push: 0.06 }, note: 'a row of court nobles; two step forward in crimson', draw(lt, d, t) { nightCourt(t, { throne: false });
       silhouetteRow(7, 300, FLOOR, 220, 420, t); for (const [k, x] of [[0, 860], [1, 1060]]) { const fw = pop(lt, ever + k * 0.25, 0.5); person(k ? 'hussain' : 'abdullah', { x, y: FLOOR + 40 * fw, h: 420 + 80 * fw, t, k, silhouette: fw < 0.5, dir: k ? -1 : 1 }); }
       K.slip('NEVER BEFORE', 960, 200, pop(lt, ever + 0.6), -0.03, 52); } });
     ev(s + 0.1, 'court'); ev(s + ever, 'step'); ev(s + ever + 0.6, 'slip'); ev(s + ever + 1.8, 'pop', { gain: 0.4 }); }
   { const s = L(3) - 0.1, four = Wd('four', 4) - s;
-    add({ id: 'C5', at: s, cam: { at: [960, 520], push: 0.08 }, note: '1719 ribbon; four crowns stamp in a row', draw(lt, d, t) { K.parchment(12); K.ribbon('1719', 960, 230, pop(lt, 0.1), 110);
-      for (let i = 0; i < 4; i++) { const p = pop(lt, four + i * 0.42, 0.25); if (p > 0) { K.crown(420 + i * 360, 600 - (1 - p) * 120, 1.3 * p, (i - 1.5) * 0.04, { plume: false }); } } } });
-    ev(s + 0.1, 'slip'); for (let i = 0; i < 4; i++) ev(s + four + i * 0.42, 'stamp', { gain: 0.8 }); }
+    const WHO = [['farrukh', 'FARRUKHSIYAR'], ['rafi1', 'RAFI-UD-DARAJAT'], ['rafi2', 'SHAH JAHAN II'], ['mshahTeen', 'MUHAMMAD SHAH']];
+    add({ id: 'C5', at: s, cam: { at: [960, 500], push: 0.08 }, note: '1719: four different men sit on the Mughal throne, one after another', draw(lt, d, t) { nightCourt(t); K.ribbon('1719', 960, 120, pop(lt, 0.1), 76);
+      const i = lt < four ? -1 : Math.min(3, Math.floor((lt - four) / 0.55)); if (i >= 0) { const [key, name] = WHO[i], p = pop(lt, four + i * 0.55, 0.2); person(key, { x: 960, y: 760, h: 430 * p, t }); K.slip(name, 520, 480, p, -0.03, 34); }
+      for (let j = 0; j <= i; j++) K.crown(1290 + (j % 2) * 150, 330 + Math.floor(j / 2) * 150, 0.42 * pop(lt, four + j * 0.55, 0.2), 0, { plume: false }); K.label('×' + Math.max(0, i + 1), 1650, 560, 60, P.gold); } });
+    ev(s + 0.1, 'slip'); for (let i = 0; i < 4; i++) ev(s + four + i * 0.55, 'stamp', { gain: 0.8 }); }
   { const s = L(5) - 0.1, gr = Wd('greatest', 5) - s;
     add({ id: 'C6', at: s, cam: { at: [960, 480], push: 0.06, z0: 1.1 }, note: 'anchor map: India 1707, huge and green', draw(lt, d, t) { K.indiaMap({ t, mughal: clamp((lt - gr + 0.3) / 1.2), pins: [{ place: 'Delhi', p: pop(lt, gr + 0.8), label: 'DELHI', pulse: true }] }); } });
     ev(s, 'map'); ev(s + gr, 'slide', { gain: 0.7, dur: 1.2 }); ev(s + gr + 0.8, 'pop'); }
-  { const s = L(6) - 0.1, pr = Wd('prize', 6) - s;
-    add({ id: 'C7', at: s, cam: { at: [960, 560], push: 0.16 }, note: 'slow push on the throne; the crown hangs a PRIZE tag', draw(lt, d, t) { nightCourt(t); K.crown(960, 470 + Math.sin(t * 2) * 6, 1.1, Math.sin(t * 1.5) * 0.03); prizeTag(1150, 470, pop(lt, pr)); } });
-    ev(s, 'court', { gain: 0.6 }); ev(s + pr, 'pop'); cue(Le(6) - 0.2, 'sting'); EV.push({ t: Le(6) - 0.2, kind: 'sting' }); }
-
+  { const s = L(6) - 0.1, pr = Wd('prize', 6) - s, ha = Wd('handed', 6) - s;
+    add({ id: 'C7', at: s, cam: { at: [960, 540], push: 0.10 }, note: 'one hand passes the crown, tagged PRIZE, to another hand', draw(lt, d, t) { nightCourt(t); const k = eio(clamp((lt - ha) / 0.9));
+      K.hand(lerp(700, 560, k), 560, 1.3, 0, 1); K.hand(lerp(1560, 1290, eo(clamp((lt - ha + 0.4) / 0.6))), 600, 1.3, 0, -1, '#C08E66', P.mughalLite);
+      const cx = lerp(690, 1250, k); K.crown(cx, 450 + Math.sin(t * 2) * 5 - Math.sin(k * Math.PI) * 70, 0.95); prizeTag(cx + 150, 400, pop(lt, pr)); } });
+    ev(s, 'court', { gain: 0.6 }); ev(s + pr, 'pop'); ev(s + ha, 'slide', { gain: 0.6 }); cue(Le(6) - 0.2, 'sting'); EV.push({ t: Le(6) - 0.2, kind: 'sting' }); }
   // ════════════ B1 · 1707 · THE OLD MAN WINS ════════════
-  { const s = beat(7, '1707', 'THE OLD MAN WINS'), yr = Wd('seventeen', 7) - s;
-    add({ id: 'B1a', at: s, whip: true, cam: { at: [960, 540], push: 0.06 }, note: 'year counter rolls back 1719 → 1707', draw(lt, d, t) { K.parchment(21); const p = clamp((lt - 1.4) / (yr + 0.6 - 1.4)); const y = Math.round(lerp(1719, 1707, eio(p)));
-      K.ribbon(String(y), 960, 520, lt > 1.3 ? 1.25 : 0, 120); for (let i = 0; i < 6; i++) { const a = clamp((lt - 1.4 - i * 0.3) / 0.5); if (a > 0 && a < 1) { ctx.save(); ctx.globalAlpha = 1 - a; cut(P_rr(300 + i * 230, 700 - a * 300, 160, 210, 4), P.cream, { shadow: 0.5 }); ctx.restore(); } } } });
-    for (let i = 0; i < 6; i++) ev(s + 1.4 + i * 0.3, 'tick', { gain: 0.6 }); ev(s + yr + 0.6, 'stamp', { gain: 0.6 }); }
+  { const s = beat(7, '1707', 'THE OLD MAN WINS'), f0 = 22.0 - s, f1 = 24.4 - s;
+    add({ id: 'B1a', at: s, whip: true, cam: { at: [960, 520], push: 0.05 }, note: 'a wall calendar flips backwards page by page, 1719 → 1707', draw(lt, d, t) { K.parchment(21);
+      const n = 12, u = clamp((lt - f0) / (f1 - f0)) * n, i = Math.min(n - 1, Math.floor(u)), fr = u >= n ? 1 : u - i, yr = lt < f0 ? 1719 : u >= n ? 1707 : 1719 - i;
+      K.calendar(960, 520, 1.0, yr, u >= n ? 1707 : yr - 1, lt < f0 ? 0 : fr); K.slip('BACK TO 1707', 1480, 300, pop(lt, f1), 0.04, 44, { color: P.crimson }); } });
+    for (let i = 0; i < 12; i++) ev(22.0 + i * 0.2, 'slip', { gain: 0.45 }); ev(24.4, 'stamp', { gain: 0.6 }); }
   { const s = at(8), ru = Wd('ruled', 8) - s, fi = Wd('fifty', 8) - s;
     add({ id: 'B1b', at: s, cam: { at: [960, 380], push: 0.08 }, note: 'Aurangzeb, an aged silhouette at the jharokha window', draw(lt, d, t) { dayCourt(t, { throne: false }); person('aurangzeb', { x: 960, y: 300, h: 300, t }); K.slip('AURANGZEB', 960, 520, pop(lt, 0.3), -0.02, 44); K.statCard('~50 YEARS', 'ON THE THRONE · 1658–1707', 1450, 520, pop(lt, fi)); silhouetteRow(5, 380, FLOOR, 290, 380, t, '#5A4636'); } });
     ev(s, 'court'); ev(s + 0.3, 'slip'); ev(s + ru, 'pop', { gain: 0.4 }); ev(s + fi, 'pop'); }
@@ -97,16 +126,27 @@ export function buildShots() {
     add({ id: 'B1h', at: s, cam: { at: [960, 480], push: 0.10 }, note: 'coronation: the crown lowers; BAHADUR SHAH I', draw(lt, d, t) { dayCourt(t); const p = eo(clamp((lt - th + 0.6) / 0.8)); person('bahadur', { x: 960, y: 760, h: 520, t, halo: lt > th + 0.3 }); K.crown(960, lerp(-80, 270, p), 0.55 * (p > 0 ? 1 : 0), 0);
       K.ribbon('BAHADUR SHAH I', 960, 140, pop(lt, fi), 64); } });
     ev(s, 'court'); ev(s + th - 0.6, 'slide', { gain: 0.5 }); ev(s + th + 0.2, 'bells'); ev(s + fi, 'stamp'); }
-  { const s = at(20), ho = Wd('hold', 21) - s, to = Wd('together', 21) - s;
-    add({ id: 'B1i', at: s, cam: { at: [880, 470], push: 0.06, z0: 1.12 }, note: 'map: cracks spread; gold stitches pull it together', draw(lt, d, t) { K.indiaMap({ t, mughal: 1 }); const [dx, dy] = proj(77.2, 28.6); cracks(dx, dy, clamp((lt - 0.4) / 1.8), 3, P.ink);
-      if (lt > ho) { ctx.save(); ctx.strokeStyle = P.gold; ctx.lineWidth = 6; for (let i = 0; i < 8; i++) { const k = clamp((lt - ho - i * 0.12) / 0.3); if (k <= 0) continue; const a = i / 8 * TAU, r = 90 + i * 22; ctx.beginPath(); ctx.moveTo(dx + Math.cos(a) * r - 20 * k, dy + Math.sin(a) * r - 20 * k); ctx.lineTo(dx + Math.cos(a) * r + 20 * k, dy + Math.sin(a) * r + 20 * k); ctx.stroke(); } ctx.restore(); }
-      K.slip('HOLD IT TOGETHER', 960, 140, pop(lt, to), -0.02, 46); } });
-    ev(s + 0.4, 'thump', { gain: 0.6 }); ev(s + ho, 'write'); ev(s + to, 'slip'); }
-
+  { const s = at(20), wo = Wd('won', 20) - s;
+    add({ id: 'B1i', at: s, cam: { at: [960, 520], push: 0.08 }, note: 'Bahadur Shah plants the Mughal flag on the hilltop; rival banners lie fallen: the war is won', draw(lt, d, t) { K.parchment(20); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 1300);
+      cut(() => { ctx.beginPath(); ctx.moveTo(-400, 1150); ctx.quadraticCurveTo(960, 560, 2320, 1150); ctx.closePath(); }, '#B9A47A', { shadow: 0.6 });
+      for (const [x, r, c] of [[460, 1.25, P.royal], [1480, -1.3, P.wine]]) { ctx.save(); ctx.translate(x, 900); ctx.rotate(r); K.flag(0, 0, 0.9, t, c); ctx.restore(); }
+      const up = eob(clamp((lt - wo + 0.4) / 0.5)); person('bahadur', { x: 860, y: 790, h: 430, t, arm: 20 + 110 * up }); K.flag(1000, 800 - 150 * up, 1.4 * clamp(up * 1.2), t, P.mughal);
+      K.slip('THE WAR IS WON', 960, 150, pop(lt, wo), -0.02, 48, { color: P.crimson }); } });
+    ev(s + wo - 0.4, 'thump'); ev(s + wo, 'stamp'); }
+  { const s = at(21), ho = Wd('hold', 21) - s, to = Wd('together', 21) - s;
+    add({ id: 'B1j', at: s, cam: { at: [920, 470], push: 0.05, z0: 1.12 }, note: 'map: the empire pulls apart into four pieces; two hands press it back together; gold stitches', draw(lt, d, t) {
+      const push = eo(clamp((lt - ho) / Math.max(0.4, to - ho + 0.3))), drift = 70 * Math.min(1, lt / 0.6) * (1 - push), [cx, cy] = proj(78.5, 24.5);
+      K.indiaMap({ t, mughal: 0, extra: (v) => { for (const [qx, qy] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { ctx.save(); ctx.translate(qx * drift, qy * drift * 0.7); ctx.beginPath(); ctx.rect(qx < 0 ? cx - 2400 : cx, qy < 0 ? cy - 2400 : cy, 2400, 2400); ctx.clip(); K.inkBleed(K.MUGHAL1707, P.mughal, 1, [77.2, 28.6], v, 2); ctx.restore(); } } });
+      if (lt > ho - 0.3) { const hp = eo(clamp((lt - ho + 0.3) / 0.6)); K.hand(lerp(-260, cx - 440, hp), cy, 1.5, 0, 1); K.hand(lerp(W + 260, cx + 440, hp), cy, 1.5, 0, -1); }
+      if (lt > to) { ctx.save(); ctx.strokeStyle = P.gold; ctx.lineWidth = 7; ctx.lineCap = 'round'; for (let i = -5; i <= 5; i++) { const k = clamp((lt - to - Math.abs(i) * 0.05) / 0.2); if (k <= 0) continue; ctx.beginPath(); ctx.moveTo(cx - 14, cy + i * 60 - 14 * k); ctx.lineTo(cx + 14, cy + i * 60 + 14 * k); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cx + i * 70 - 14 * k, cy - 14); ctx.lineTo(cx + i * 70 + 14 * k, cy + 14); ctx.stroke(); } ctx.restore(); }
+      K.slip('HOLD IT TOGETHER', 960, 140, pop(lt, ho), -0.02, 46); } });
+    ev(s + 0.1, 'slide', { gain: 0.6 }); ev(s + ho - 0.3, 'whip', { gain: 0.6 }); ev(s + ho + 0.3, 'thump'); ev(s + to, 'write'); }
   // ════════════ B2 · 1707 · MAKE PEACE ════════════
-  { const s = beat(22, '1707', 'MAKE PEACE'), pe = Wd('peace', 22) - s;
-    add({ id: 'B2a', at: s, whip: true, cam: { at: [960, 520], push: 0.07 }, note: 'a peace farman sealed', draw(lt, d, t) { K.parchment(22); K.farman(960, 540, 1.3, clamp((lt - 0.5) / 0.6), pop(lt, pe)); K.slip('MAKE PEACE', 960, 140, pop(lt, pe + 0.3), -0.03, 52); } });
-    ev(s + 0.5, 'slip'); ev(s + pe, 'stamp'); ev(s + pe + 0.3, 'pop', { gain: 0.5 }); }
+  { const s = beat(22, '1707', 'MAKE PEACE'), pe = Wd('peace', 22) - s, ev_ = Wd('everyone', 22) - s;
+    add({ id: 'B2a', at: s, whip: true, cam: { at: [960, 500], push: 0.07 }, note: 'Bahadur Shah opens his arms to Maratha and Rajput envoys; a peace farman is sealed', draw(lt, d, t) { dayCourt(t); person('bahadur', { x: 960, y: 760, h: 430, t, arm: 30 + 50 * pop(lt, pe) });
+      [[420, P.maratha, 'MARATHAS'], [1500, P.rajput, 'RAJPUTS']].forEach(([x, c, n], i) => { const a = pop(lt, 1.3 + i * 0.3); if (a <= 0) return; K.figure({ x, y: FLOOR + 40, h: 420, t, k: i, jama: P.cream, turban: c, sash: c, beard: 'black', moustache: true, cap: i ? null : 'pagdi', dir: x < 960 ? 1 : -1, arm: 40 }); K.flag(x + (x < 960 ? -120 : 120), FLOOR + 40, 0.95 * a, t, c, i); K.slip(n, x, 300, a, (i ? 0.03 : -0.03), 32); });
+      K.farman(1240, 420, 0.42, 1, pop(lt, pe)); K.slip('PEACE WITH EVERYONE', 960, 130, pop(lt, ev_), -0.02, 44, { color: P.crimson }); } });
+    ev(s + 1.3, 'step'); ev(s + 1.6, 'step'); ev(s + pe, 'stamp'); ev(s + ev_, 'slip'); }
   { const s = at(23), fr = Wd('free', 24) - s, ho = Wd('home', 24) - s;
     add({ id: 'B2b', at: s, cam: { pan: [[820, 520], [1120, 520]], push: 0.05 }, note: 'Shahu, the young Maratha prince, walks out of a gate', draw(lt, d, t) { K.parchment(23); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 1300); K.gate(700, FLOOR + 10, 1.05); cut(P_rr(-400, FLOOR, W + 800, 500), P.sepia, { shadow: 0, edge: 0 });
       const wx = lerp(700, 1350, eio(clamp((lt - 0.4) / (d - 0.6)))); person('shahu', { x: wx, y: FLOOR, h: 480, t, walk: lt * 6 });
@@ -143,9 +183,10 @@ export function buildShots() {
     add({ id: 'B3a', at: s, whip: true, cam: { at: [960, 560], push: 0.08 }, note: 'the crown set down on a cushion; the candle goes out', draw(lt, d, t) { nightCourt(t); cut(P_ell(960, 720, 220, 50), P.crimson); K.crown(960, 650, 0.9); K.candle(1300, 880, 1, t, clamp((lt - di) / 0.7)); K.slip('FEB 1712', 600, 260, pop(lt, 1.6), -0.03, 46); } });
     ev(s + 1.6, 'slip'); ev(s + di, 'snuff'); }
   { const s = at(35), wa = Wd('war', 35) - s;
-    add({ id: 'B3b', at: s, cam: { at: [760, 300], push: 0.06, z0: 1.45 }, note: 'map: four sons’ crowns clash at Lahore', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, pins: [{ place: 'Lahore', label: 'LAHORE', p: 1, dy: 54 }] }); const [x, y] = proj(74.3, 31.5);
-      for (let i = 0; i < 4; i++) { const a = i / 4 * TAU + 0.6, r = lerp(260, 70, eo(clamp((lt - 0.2) / 1.6))); K.crown(x + Math.cos(a) * r, y + Math.sin(a) * r * 0.6, 0.45, 0, { plume: false }); } if (lt > wa) K.battle(x, y, t, 1.2); } });
-    ev(s + 0.2, 'slide', { gain: 0.5 }); ev(s + wa, 'battle'); ev(s + wa + 0.2, 'sword'); }
+    add({ id: 'B3b', at: s, cam: { at: [960, 520], push: 0.08 }, note: 'Bahadur Shah’s four sons draw swords against each other', draw(lt, d, t) { K.parchment(35); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 1300); cut(P_rr(-400, FLOOR, W + 800, 400), '#B9A47A', { shadow: 0, edge: 0 });
+      const cols = [P.wine, P.royal, P.mughalLite, P.sepia]; for (let i = 0; i < 4; i++) { const x = [420, 780, 1140, 1500][i], up = pop(lt, wa + i * 0.12); K.figure({ x, y: FLOOR, h: 430, t, k: i, jama: cols[i], turban: P.gold, beard: 'black', prop: 'sword', arm: 30 + 90 * up, dir: i < 2 ? 1 : -1 }); }
+      K.crown(960, 320, 0.8, Math.sin(t * 2) * 0.05); K.slip('FOUR SONS', 960, 140, pop(lt, 0.2), -0.02, 46); if (lt > wa) K.crossedSwords(960, 560, pop(lt, wa) * 1.2); } });
+    ev(s + 0.2, 'slip'); ev(s + wa, 'sword'); ev(s + wa + 0.2, 'battle', { gain: 0.6 }); }
   { const s = at(36), ja = Wd('winner', 36) - s;
     add({ id: 'B3c', at: s, cam: { at: [960, 500], push: 0.10 }, note: 'Jahandar Shah wins the crown', draw(lt, d, t) { dayCourt(t); person('jahandar', { x: 960, y: 800, h: 560, t }); K.ribbon('JAHANDAR SHAH', 960, 140, pop(lt, ja + 0.4), 62); } });
     ev(s, 'court'); ev(s + ja + 0.4, 'stamp'); }
@@ -157,17 +198,28 @@ export function buildShots() {
     add({ id: 'B3e', at: s, cam: { at: [960, 480], push: 0.06 }, note: 'crown on the left, the keys of the empire on the right', draw(lt, d, t) { K.parchment(39); person('jahandar', { x: 560, y: FLOOR, h: 500, t }); person('zulfikar', { x: 1360, y: FLOOR, h: 520, t, k: 2, dir: -1, prop: null, arm: 50 });
       K.crown(560, 220, pop(lt, cr) * 0.7); keys(1300, 340 + Math.sin(t * 2) * 6, pop(lt, ke) * 0.9, Math.sin(t) * 0.1); K.slip('THE CROWN', 560, 110, pop(lt, cr + 0.1), -0.03, 40); K.slip('THE KEYS', 1360, 110, pop(lt, ke + 0.1), 0.03, 40, { color: P.crimson }); } });
     ev(s + cr, 'crown', { gain: 0.5, dur: 0.5 }); ev(s + ke, 'coin', { gain: 0.7 }); }
-  { const s = at(40), iz = Wd('izara', 41) - s, ta = Wd('taxes', 42) - s, mo = Wd('most', 42) - s;
-    add({ id: 'B3f', at: s, cam: { pan: [[900, 520], [1040, 500]], push: 0.06 }, note: 'izara explained: bidders for a district’s taxes', draw(lt, d, t) { K.parchment(41); cut(P_rr(700, 300, 520, 360, 8), P.land); ctx.save(); P_rr(700, 300, 520, 360, 8)(); ctx.clip(); for (let i = 0; i < 6; i++) line([[700, 330 + i * 60], [1220, 300 + i * 70]], 'rgba(126,139,90,0.5)', 14); ctx.restore(); K.label('ONE DISTRICT', 960, 690, 30);
-      K.slip('IZARA = REVENUE FARMING', 960, 160, pop(lt, iz), -0.02, 46);
-      const bids = ['₹', '₹₹', '₹₹₹']; [[380, 0], [1540, 1], [1260, 2]].forEach(([x, i]) => { const p = pop(lt, ta + i * 0.35); if (p > 0) { K.figure({ x, y: FLOOR + 40, h: 360, t, k: i, jama: [P.wine, P.royal, P.sepia][i], turban: P.cream, beard: 'black', arm: 90 }); for (let c = 0; c <= i; c++) K.coin(x + 40, 520 - c * 22 - (1 - p) * 40, 0.8); } });
-      if (lt > mo) { const [x] = [1260]; K.slip('HIGHEST BID WINS', x, 330, pop(lt, mo), 0.04, 36, { color: P.crimson }); } } });
-    ev(s, 'coin', { gain: 0.5 }); ev(s + iz, 'slip'); [0, 1, 2].forEach((i) => ev(s + ta + i * 0.35, 'coin', { gain: 0.7 })); ev(s + mo, 'stamp'); ev(Wd('right', 42), 'pop', { gain: 0.3 }); }
-  { const s = at(43), ca = Wd('cash', 43) - s, pe = Wd('peasants', 43) - s;
-    add({ id: 'B3g', at: s, cam: { at: [960, 560], push: 0.08 }, note: 'coins rise from a shrinking grain sack; a peasant watches', draw(lt, d, t) { K.parchment(43); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 1300); cut(P_rr(-400, FLOOR, W + 800, 400), '#9C8C70', { shadow: 0, edge: 0 });
-      peasant(560, FLOOR, 460, t); const sq = clamp((lt - pe) / 1.2); sack(960, FLOOR, 1.2, 1 - sq * 0.8); for (let i = 0; i < 6; i++) { const k = ((lt - ca + i * 0.3) % 1.8) / 1.8; if (lt > ca) K.coin(960 + Math.sin(i * 2) * 60, lerp(700, 200, k), 0.7); }
-      K.slip('QUICK CASH', 1400, 300, pop(lt, ca), 0.03, 46); K.slip('SQUEEZED PEASANTS', 1400, 450, pop(lt, pe), -0.03, 40, { color: P.crimson }); } });
-    ev(s + ca, 'coin'); ev(s + ca + 1, 'coin', { gain: 0.6 }); ev(s + pe, 'thump'); }
+  { const s = at(40), mo = Wd('money', 40) - s;
+    add({ id: 'B3f', at: s, cam: { at: [960, 540], push: 0.08 }, note: 'Zulfikar Khan opens the treasury chest: almost empty', draw(lt, d, t) { dayCourt(t, { throne: false }); person('zulfikar', { x: 640, y: FLOOR + 30, h: 520, t, arm: 50, brows: 'worried', prop: null }); K.chest(1120, FLOOR + 10, 1.3, eo(clamp((lt - 0.2) / 0.5)), 0.08);
+      K.slip('THE TREASURY: EMPTY', 1120, 380, pop(lt, mo), 0.03, 44, { color: P.crimson }); } });
+    ev(s + 0.2, 'thump', { gain: 0.6 }); ev(s + mo, 'slip'); ev(s + mo + 0.4, 'coin', { gain: 0.4 }); }
+  { const s = at(41), iz = Wd('izara', 41) - s, fa = Wd('farming', 41) - s;
+    add({ id: 'B3g1', at: s, cam: { pan: [[820, 540], [1080, 520]], push: 0.05 }, note: 'revenue farming: farmers harvest the fields while a noble on a platform gives orders', draw(lt, d, t) { K.parchment(41); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 700); K.field(500, 900, t, 1);
+      for (let i = 0; i < 4; i++) { const x = 260 + i * 300, bend = 0.3 + 0.12 * Math.sin(t * 3 + i), dir = i % 2 ? -1 : 1; ctx.save(); ctx.translate(x, 870); ctx.rotate(bend * dir); ctx.translate(-x, -870); peasant(x, 870, 320, t, i, dir); ctx.restore(); sickle(x + dir * 110, 800, t, i); }
+      cut(P_rr(1440, 640, 340, 70, 8), P.sandDark); K.figure({ x: 1620, y: 650, h: 430, t, k: 7, jama: P.wine, turban: P.gold, sash: P.gold, beard: 'black', arm: 75 + 15 * Math.sin(t * 4), prop: null, dir: -1 }); K.ledger(1500, 560, 0.55, 0.1);
+      K.slip('IZARA', 620, 150, pop(lt, iz), -0.03, 52, { color: P.crimson }); K.slip('REVENUE FARMING', 1120, 160, pop(lt, fa), 0.02, 44); K.slip('the revenue farmer', 1620, 140 + 60, pop(lt, fa + 0.4), -0.02, 28, { pin: null }); } });
+    ev(s + 0.2, 'court', { gain: 0.4 }); ev(s + iz, 'slip'); ev(s + fa, 'pop'); ev(s + fa + 0.4, 'pop', { gain: 0.3 }); }
+  { const s = at(42), ta = Wd('taxes', 42) - s, bi = Wd('bid', 42) - s, mo = Wd('most', 42) - s;
+    add({ id: 'B3g2', at: s, cam: { at: [960, 520], push: 0.06 }, note: 'auction: bidders pile up coins for the right to collect one district’s taxes; the highest bid wins the scroll', draw(lt, d, t) { dayCourt(t, { throne: false }); person('zulfikar', { x: 360, y: FLOOR + 40, h: 520, t, arm: 80, prop: null });
+      const win = clamp((lt - mo) / 0.7), sx = lerp(480, 1500, eo(win)), sy = lerp(470, 470, win) - Math.sin(win * Math.PI) * 120; K.farman(sx, sy, 0.3, 1, 1, -0.1); K.slip("ONE DISTRICT'S TAXES", 560, 250, pop(lt, ta), -0.03, 34);
+      [[880, 1], [1190, 2], [1500, 3]].forEach(([x, n], i) => { K.figure({ x, y: FLOOR + 40, h: 400, t, k: i + 2, jama: [P.royal, P.sepia, P.wine][i], turban: P.cream, beard: 'black', arm: lt > bi ? 110 : 30, dir: -1 }); const stack = 1 + Math.round(n * 2 * clamp((lt - bi + 0.8 - i * 0.2) / 0.8)); for (let c = 0; c < stack; c++) K.coin(x - 100, FLOOR + 20 - c * 20, 0.8); });
+      K.slip('HIGHEST BID WINS', 1500, 290, pop(lt, mo + 0.3), 0.03, 40, { color: P.crimson }); } });
+    ev(s + ta, 'slip'); ev(s + bi - 0.8, 'coin', { gain: 0.6 }); ev(s + bi, 'coin'); ev(s + mo, 'slide', { gain: 0.6 }); ev(s + mo + 0.3, 'stamp'); }
+  { const s = at(43), ca = Wd('cash', 43) - s, sq = Wd('squeeze', 43) - s, pe = Wd('peasants', 43) - s;
+    add({ id: 'B3g3', at: s, cam: { pan: [[1100, 540], [860, 540]], push: 0.05 }, note: 'coins pour into the treasury; the revenue farmer’s man carries off the peasant’s grain', draw(lt, d, t) { K.parchment(43); ctx.fillStyle = '#E7D7AE'; ctx.fillRect(-400, -400, W + 800, 1300); cut(P_rr(-400, FLOOR, W + 800, 400), '#9C8C70', { shadow: 0, edge: 0 });
+      K.chest(1520, FLOOR, 1.1, 1, clamp((lt - ca) / 1.5)); for (let i = 0; i < 5; i++) { const k = ((lt - ca + i * 0.3) % 1.5) / 1.5; if (lt > ca) K.coin(lerp(1150, 1520, k), 560 - Math.sin(k * Math.PI) * 140 + k * 200, 0.7, k * 6); }
+      const take = clamp((lt - sq) / 1.4); peasant(400, FLOOR, 430, t, 1, 1); sack(600, FLOOR, 1.0, 1 - take * 0.75); K.figure({ x: 880, y: FLOOR, h: 440, t, k: 5, jama: P.wine, turban: P.cream, beard: 'black', arm: 60, prop: null, dir: -1 }); if (take > 0) sack(lerp(780, 1080, take), FLOOR - 40 * Math.sin(take * Math.PI), 0.6, 1);
+      K.slip('QUICK CASH', 1520, 300, pop(lt, ca), 0.03, 44); K.slip('PEASANTS SQUEEZED', 560, 300, pop(lt, pe), -0.03, 40, { color: P.crimson }); } });
+    ev(s + ca, 'coin'); ev(s + ca + 0.8, 'coin', { gain: 0.6 }); ev(s + sq, 'thump'); ev(s + pe, 'slip'); }
   { const s = at(44), ab = Wd('abolished', 44) - s;
     add({ id: 'B3h', at: s, cam: { at: [960, 520], push: 0.08 }, note: 'tax ledger: JIZYA struck out', draw(lt, d, t) { K.parchment(44); cut(P_rr(560, 200, 800, 600, 6), P.cream); line([[960, 210], [960, 790]], 'rgba(62,44,30,0.3)', 3);
       K.label('JIZYA', 760, 360, 64, P.ink); K.label('tax on non-Muslims', 760, 440, 30, P.sepia); for (let i = 0; i < 6; i++) line([[1010, 300 + i * 70], [1300, 300 + i * 70]], 'rgba(62,44,30,0.35)', 4);
@@ -186,7 +238,7 @@ export function buildShots() {
     ev(s + 1.5, 'stamp', { gain: 0.6 }); ev(s + al, 'pop', { gain: 0.5 }); ev(s + al + 0.2, 'pop', { gain: 0.5 }); }
   { const s = at(49), so = Wd('soldiers', 50) - s, ar = Wd('armies', 50) - s;
     add({ id: 'B4b', at: s, cam: { at: [960, 500], push: 0.08, snaps: [{ t: 0.05, z: 1.06 }] }, note: 'the Sayyid brothers step in: matching turbans; armies behind', draw(lt, d, t) { K.parchment(49); if (lt > ar) soldiers(240, 640, 17, 0.8 * pop(lt, ar), t, P.mughal, 90);
-      person('abdullah', { x: 760, y: FLOOR, h: 640, t, brows: 'cold' }); person('hussain', { x: 1160, y: FLOOR, h: 640, t, k: 1, dir: -1, brows: 'cold' }); K.slip('THE SAYYID BROTHERS', 960, 120, pop(lt, 0.1), -0.02, 56, { color: P.crimson }); K.slip('A FAMILY OF SOLDIERS', 960, 220, pop(lt, so), 0.03, 34); } });
+      person('abdullah', { x: 760, y: FLOOR, h: 640, t, brows: 'cold' }); person('hussain', { x: 1160, y: FLOOR, h: 640, t, k: 1, dir: -1, brows: 'cold' }); K.slip('THE SAYYID BROTHERS', 960, 120, pop(lt, 0.1), -0.02, 56, { color: P.crimson }); K.slip('A FAMILY OF SOLDIERS', 1560, 330, pop(lt, so), 0.03, 34); } });
     ev(s, 'step'); ev(s + 0.1, 'stamp'); ev(s + so, 'slip'); ev(s + ar, 'march', { dur: 1.6 }); ev(L(50), 'pop', { gain: 0.3 }); }
   { const s = at(51), hu = Wd('Hussain', 52) - s;
     add({ id: 'B4c', at: s, cam: { pan: [[700, 480], [1220, 480]], push: 0.06 }, note: 'name cards: Abdullah Khan (ledger), Hussain Ali (sword)', draw(lt, d, t) { K.parchment(51); person('abdullah', { x: 700, y: FLOOR, h: 620, t, brows: 'cold', arm: 30 }); person('hussain', { x: 1220, y: FLOOR, h: 620, t, k: 1, dir: -1, brows: 'cold', arm: 40 });
@@ -205,7 +257,7 @@ export function buildShots() {
     ev(s, 'court'); ev(s + mi, 'slip'); ev(s + ar, 'stamp'); }
   { const s = at(57), cr = Wd('crown', 57) - s, go = Wd('government', 57) - s;
     add({ id: 'B4g', at: s, cam: { at: [960, 440], push: 0.10 }, note: 'gold puppet strings appear from the brothers’ hands', draw(lt, d, t) { K.parchment(57); person('farrukh', { x: 960, y: FLOOR, h: 520, t, arm: 20 + Math.sin(t * 2) * 10 }); person('abdullah', { x: 520, y: 520, h: 420, t, k: 1, arm: 60 }); person('hussain', { x: 1400, y: 520, h: 420, t, k: 2, dir: -1, arm: 60 });
-      K.puppetStrings([[600, 200], [1320, 200]], [[930, 430], [1000, 560]], t, clamp((lt - cr - 0.2) / 0.8)); K.slip('THE CROWN', 960, 140, pop(lt, cr), -0.02, 40); K.slip('THE GOVERNMENT', 960, 780, pop(lt, go), 0.02, 40, { color: P.crimson }); } });
+      K.puppetStrings([[600, 200], [1320, 200]], [[930, 430], [1000, 560]], t, clamp((lt - cr - 0.2) / 0.8)); K.slip('THE CROWN', 960, 140, pop(lt, cr), -0.02, 40); K.slip('THE GOVERNMENT', 960, 245, pop(lt, go), 0.02, 40, { color: P.crimson }); } });
     ev(s + cr, 'pop', { gain: 0.5 }); ev(s + cr + 0.2, 'slide', { gain: 0.6 }); ev(s + go, 'stamp'); }
   { const s = at(58), ji = Wd('again', 58) - s, pi = Wd('pilgrimage', 58) - s;
     add({ id: 'B4h', at: s, cam: { at: [960, 520], push: 0.07 }, note: 'ledger: JIZYA and PILGRIMAGE TAX struck out', draw(lt, d, t) { K.parchment(58); cut(P_rr(460, 220, 1000, 540, 6), P.cream);
@@ -247,14 +299,16 @@ export function buildShots() {
     add({ id: 'B5c', at: s, cam: { pan: [[760, 560], [820, 320]], push: 0.05, z0: 1.25 }, note: 'map: Hussain Ali marches north from the Deccan; Maratha troops join', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, pins: [{ place: 'Aurangabad', label: 'DECCAN', p: 1, dy: 54 }, { place: 'Satara', p: pop(lt, ma - 0.3), color: P.maratha }, { place: 'Delhi', label: 'DELHI', p: 1, pulse: lt > no }] });
       if (lt > fi) K.crossedSwords(...proj(76, 23), pop(lt, fi) * 0.8); K.route([[75.3, 19.9], [76.2, 22.6], [77.0, 25.4], [77.2, 28.6]], clamp((lt - no) / 5), P.mughal, K.VIEW, (x, y) => K.flag(x, y + 10, 0.45, t, P.mughal));
       K.route([[74.0, 17.7], [74.6, 19.6], [75.6, 22.6], [76.4, 25.4], [76.9, 28.3]], clamp((lt - ma) / 4.5), P.maratha, K.VIEW, (x, y) => K.flag(x, y + 10, 0.45, t, P.maratha));
-      K.slip('PESHWA BALAJI VISHWANATH', 1400, 760, pop(lt, pe), -0.02, 32); K.slip('(per historian Rajiv Ahir)', 1400, 840, pop(lt, pe + 0.4), 0.02, 24, { pin: null }); } });
+      K.slip('PESHWA BALAJI VISHWANATH', 1400, 300, pop(lt, pe), -0.02, 32); K.slip('(per historian Rajiv Ahir)', 1400, 380, pop(lt, pe + 0.4), 0.02, 24, { pin: null }); } });
     ev(s + fi, 'sword'); ev(s + no, 'march', { dur: 3 }); ev(s + ma, 'march', { dur: 3, gain: 0.8 }); ev(s + ma - 0.3, 'pop'); ev(s + pe, 'slip'); ev(s + pe + 2, 'pop', { gain: 0.3 }); ev(Wd('historian', 69), 'pop', { gain: 0.3 }); }
   { const s = at(70), se = Wd('seized', 70) - s;
     add({ id: 'B5d', at: s, cam: { at: [960, 480], push: 0.08 }, note: 'night palace: the brothers’ green banners rise on the walls', draw(lt, d, t) { K.nightPage(70); K.gate(960, FLOOR, 1.2); cut(P_rr(-400, FLOOR, W + 800, 400), '#2C2420', { shadow: 0, edge: 0 }); for (let i = 0; i < 5; i++) { const p = pop(lt, se + i * 0.15); if (p > 0) K.flag(300 + i * 330, 380 + (1 - p) * 200, 1.0, t, P.mughal, i); } K.torch(500, 700, 0.9, t); K.torch(1420, 700, 0.9, t, 2); K.ribbon('FEB 1719', 960, 140, pop(lt, 0.2), 60); } });
     ev(s + 0.2, 'slip'); ev(s, 'march', { gain: 0.6, dur: 2 }); ev(s + se, 'thump'); ev(s + se + 0.5, 'pop', { gain: 0.4 }); }
   { const s = at(71), dr = Wd('dragged', 71) - s, bl = Wd('blinded', 71) - s, lo = Wd('locked', 71) - s;
-    add({ id: 'B5e', at: s, cam: { at: [960, 600], push: 0.10 }, note: 'no violence: an empty throne, a cloth on the floor, a candle snuffed', draw(lt, d, t) { nightCourt(t); K.cloth(780, 900, 1.1, clamp((lt - dr) / 0.9), P.royal); K.candle(1240, 900, 1, t, clamp((lt - bl) / 0.6)); if (lt > lo) bars(960, 1000, 1000, 1000, clamp((lt - lo) / 0.6)); } });
-    ev(s + dr, 'slide', { gain: 0.6 }); ev(s + bl, 'snuff'); ev(s + lo, 'thump'); }
+    add({ id: 'B5e', at: s, cam: { at: [960, 560], push: 0.08 }, note: 'guards drag Farrukhsiyar out; a blindfold; prison bars come down (nothing violent shown)', draw(lt, d, t) { nightCourt(t); const ex = lerp(1150, 760, eio(clamp((lt - dr) / 1.6)));
+      dragGroup(ex, t, lt, 460, bl); if (lt > lo) bars(960, 1000, 1100, 1000, clamp((lt - lo) / 0.6));
+      K.slip('DRAGGED OUT', 520, 200, pop(lt, dr), -0.03, 40); K.slip('BLINDED', 960, 140, pop(lt, bl), 0.02, 44, { color: P.crimson }); } });
+    ev(s + dr, 'step'); ev(s + dr + 0.6, 'step'); ev(s + bl, 'slide', { gain: 0.5 }); ev(s + lo, 'slam'); }
   { const s = at(72), ki = Wd('killed', 72) - s;
     add({ id: 'B5f', at: s, cam: { at: [960, 520], push: 0.12 }, note: 'prison bars; a second candle goes out', draw(lt, d, t) { K.nightPage(72, 0.9); K.candle(960, 760, 1.4, t, clamp((lt - ki) / 0.8)); bars(960, 1000, 1200, 1100, 1); K.slip('WITHIN WEEKS', 960, 160, pop(lt, 0.2), -0.03, 44); } });
     ev(s + 0.2, 'slip'); ev(s + ki, 'snuff', { gain: 1.2 }); }

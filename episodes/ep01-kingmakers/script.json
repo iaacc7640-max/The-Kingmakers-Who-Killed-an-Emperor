@@ -16,11 +16,14 @@
     "GKToday, 'Bahadur Shah I' (Khafi Khan's title Shah-i-Bekhabar) https://www.gktoday.in/bahadur-shah-i",
     "UPSC with Nikhil, 'Zulfiqar Khan and Jahandar Shah (1712-13)' (izara; jizya abolished) https://upscwithnikhil.com/article/history/zulfiqar-khan-and-jahandar-shah-1712-13",
     "Vajiram & Ravi, 'Farrukh Siyar' (Husain Ali marched on Delhi with Maratha troops under Peshwa Balaji Vishwanath) https://vajiramandravi.com/current-affairs/farrukh-siyar/",
-    "Banglapedia, 'Farrukh Siyar' (1717 farman: English Company trade in Bengal free of customs duty) https://en.banglapedia.org/index.php?title=Farrukh_Siyar"
+    "Banglapedia, 'Farrukh Siyar' (1717 farman: English Company trade in Bengal free of customs duty) https://en.banglapedia.org/index.php?title=Farrukh_Siyar",
+    "Coastlines: Natural Earth 1:10m land (public domain), checked against the Survey of India maps 'Political Map of India' (2026) and 'India & Adjacent Countries' (1:2.5M), surveyofindia.gov.in",
+    "Mughal flag drawn after 'Flag of the Mughal Empire (triangular).svg' by NikNaks, Wikimedia Commons, CC BY-SA 3.0 https://commons.wikimedia.org/wiki/File:Flag_of_the_Mughal_Empire_(triangular).svg",
+    "Maratha flag (Bhagwa Dhwaj) drawn after 'Flag of the Maratha Empire.svg', Wikimedia Commons, public domain https://commons.wikimedia.org/wiki/File:Flag_of_the_Maratha_Empire.svg"
   ],
   "lines": [
     {
-      "text": "In seventeen nineteen, two brothers had a Moo-gul emperor dragged from his palace,",
+      "text": "In seventeen nineteen, two brothers had a Mughal emperor dragged from his palace,",
       "caps": "In *1719, | two *brothers | had a Mughal *emperor | dragged from his *palace,"
     },
     {
@@ -36,7 +39,7 @@
       "caps": "Within a *single year,"
     },
     {
-      "text": "four different men sat on the Moo-gul throne.",
+      "text": "four different men sat on the Mughal throne.",
       "caps": "*four different men | on the Mughal *throne."
     },
     {
@@ -53,7 +56,7 @@
       "caps": "Go back | twelve *years, | to *1707."
     },
     {
-      "text": "The emperor Or-ung-zeb had ruled for nearly fifty years.",
+      "text": "The emperor Aurangzeb had ruled for nearly fifty years.",
       "caps": "Emperor *Aurangzeb | ruled for nearly | *fifty years."
     },
     {
@@ -65,7 +68,7 @@
       "caps": "and no agreed *heir."
     },
     {
-      "text": "So the princes did what Moo-gul princes had always done.",
+      "text": "So the princes did what Mughal princes had always done.",
       "caps": "So the *princes | did what princes | had *always done."
     },
     {
@@ -73,7 +76,7 @@
       "caps": "They *fought."
     },
     {
-      "text": "A Moo-gul throne was never simply inherited. It had to be won.",
+      "text": "A Mughal throne was never simply inherited. It had to be won.",
       "caps": "A Mughal throne | was never *inherited. | It had to be *won."
     },
     {
@@ -89,15 +92,15 @@
       "caps": "but he *won."
     },
     {
-      "text": "His brother Aa-zum fell in battle that same year,",
+      "text": "His brother Azam fell in battle that same year,",
       "caps": "His brother *Azam | fell in *battle | that same *year,"
     },
     {
-      "text": "and his brother Kaam Bukhsh died fighting him two years later.",
+      "text": "and his brother Kam Bakhsh died fighting him two years later.",
       "caps": "and *Kam Bakhsh | died *fighting him | two years *later."
     },
     {
-      "text": "The old prince took the throne as Ba-haa-dur Shah the First.",
+      "text": "The old prince took the throne as Bahadur Shah the First.",
       "caps": "The old prince | became *Bahadur | Shah the *First."
     },
     {
@@ -114,7 +117,7 @@
       "caps": "His *answer: | make *peace | with everyone."
     },
     {
-      "text": "Shaa-hoo, the young Maratha prince held captive at the Moo-gul court,",
+      "text": "Shahu, the young Maratha prince held captive at the Mughal court,",
       "caps": "*Shahu, | the Maratha *prince | held *captive"
     },
     {
@@ -138,11 +141,11 @@
       "caps": "Titles and *rewards | to keep every | faction *happy."
     },
     {
-      "text": "So the historian Kaafee Khan gave him a nickname:",
+      "text": "So the historian Khafi Khan gave him a nickname:",
       "caps": "Historian *Khafi Khan | gave him | a *nickname:"
     },
     {
-      "text": "Shah-ee Bekhabar.",
+      "text": "Shah-i-Bekhabar.",
       "caps": "*Shah-i-Bekhabar."
     },
     {
@@ -159,7 +162,7 @@
       "gap": 0.7
     },
     {
-      "text": "In February seventeen twelve, Ba-haa-dur Shah died.",
+      "text": "In February seventeen twelve, Bahadur Shah died.",
       "caps": "*February 1712, | Bahadur Shah | *died."
     },
     {
@@ -167,7 +170,7 @@
       "caps": "His four *sons | went to *war,"
     },
     {
-      "text": "The winner was Juh-haan-dar Shah.",
+      "text": "The winner was Jahandar Shah.",
       "caps": "The *winner: | *Jahandar Shah."
     },
     {
@@ -179,7 +182,7 @@
       "caps": "Chief minister | *Zulfikar Khan | ran the *empire."
     },
     {
-      "text": "Juh-haan-dar Shah held the crown. Zulfikar Khan held the keys.",
+      "text": "Jahandar Shah held the crown. Zulfikar Khan held the keys.",
       "caps": "Jahandar held | the *crown. | Zulfikar held | the *keys."
     },
     {
@@ -199,7 +202,7 @@
       "caps": "Quick *cash, | but it squeezed | the *peasants."
     },
     {
-      "text": "Juh-haan-dar Shah also abolished the jiz-ya, the tax on non-Muslims.",
+      "text": "Jahandar Shah also abolished the jizya, the tax on non-Muslims.",
       "caps": "Jahandar *abolished | the *jizya, | the tax on non-Muslims."
     },
     {
@@ -212,7 +215,7 @@
       "gap": 0.45
     },
     {
-      "text": "His name was Furrook see-yar,",
+      "text": "His name was Farrukhsiyar,",
       "caps": "His name: | *Farrukhsiyar,"
     },
     {
@@ -220,7 +223,7 @@
       "caps": "and two | powerful *allies."
     },
     {
-      "text": "The Sai-yid brothers.",
+      "text": "The Sayyid brothers.",
       "caps": "The *Sayyid | *brothers."
     },
     {
@@ -236,11 +239,11 @@
       "caps": "and his younger brother, | *Hussain Ali."
     },
     {
-      "text": "With their armies behind him, Furrook see-yar marched on Delhi.",
+      "text": "With their armies behind him, Farrukhsiyar marched on Delhi.",
       "caps": "With their *armies, | he marched | on *Delhi."
     },
     {
-      "text": "In seventeen thirteen, Juh-haan-dar Shah lost the throne, and his life.",
+      "text": "In seventeen thirteen, Jahandar Shah lost the throne, and his life.",
       "caps": "In *1713, | Jahandar lost | the *throne, | and his *life."
     },
     {
@@ -252,15 +255,15 @@
       "caps": "One: chief *minister. | The other: | the *army."
     },
     {
-      "text": "Furrook see-yar wore the crown, but the brothers held the government.",
+      "text": "Farrukhsiyar wore the crown, but the brothers held the government.",
       "caps": "He wore | the *crown. | They held | the *government."
     },
     {
-      "text": "Furrook see-yar abolished the jiz-ya again, and the pilgrimage tax too.",
+      "text": "Farrukhsiyar abolished the jizya again, and the pilgrimage tax too.",
       "caps": "*Jizya | abolished again, | and the *pilgrimage tax."
     },
     {
-      "text": "And in seventeen seventeen, he signed royal orders called far-maans,",
+      "text": "And in seventeen seventeen, he signed royal orders called farmans,",
       "caps": "In *1717, | royal orders: | *farmans,"
     },
     {
@@ -272,7 +275,7 @@
       "caps": "A *small favour. | But one day, | it would help | take *Bengal itself."
     },
     {
-      "text": "Furrook see-yar thought the brothers worked for him.",
+      "text": "Farrukhsiyar thought the brothers worked for him.",
       "caps": "He thought | the brothers | worked for *him."
     },
     {
@@ -301,7 +304,7 @@
       "caps": "Hussain Ali | marched *north | from the *Deccan,"
     },
     {
-      "text": "and with him, according to the historian Ahir, came Maratha troops sent by the Pesh-wa, Baa-la-jee Vish-waa-nath.",
+      "text": "and with him, according to the historian Ahir, came Maratha troops sent by the Peshwa, Balaji Vishwanath.",
       "caps": "with him, | *Maratha troops | sent by the Peshwa, | *Balaji Vishwanath."
     },
     {
@@ -309,7 +312,7 @@
       "caps": "*February 1719, | they *seized | the palace."
     },
     {
-      "text": "Furrook see-yar was dragged out, blinded, and locked away.",
+      "text": "Farrukhsiyar was dragged out, blinded, and locked away.",
       "caps": "Farrukhsiyar | *dragged out, | *blinded, | locked away."
     },
     {
@@ -317,7 +320,7 @@
       "caps": "Within *weeks, | he was *killed | in prison."
     },
     {
-      "text": "No Moo-gul emperor had ever been killed by his own nobles before.",
+      "text": "No Mughal emperor had ever been killed by his own nobles before.",
       "caps": "No Mughal emperor | killed by his own | *nobles before."
     },
     {
@@ -334,7 +337,7 @@
       "caps": "The brothers | *chose | the next emperor."
     },
     {
-      "text": "First, a young prince, Ra-fee ud Da-ra-jaat.",
+      "text": "First, a young prince, Rafi-ud-Darajat.",
       "caps": "First: | *Rafi-ud-Darajat."
     },
     {
@@ -342,7 +345,7 @@
       "caps": "Just over | *three months."
     },
     {
-      "text": "When he died, his older brother was crowned as Shaah Ja-haan the Second.",
+      "text": "When he died, his older brother was crowned as Shah Jahan the Second.",
       "caps": "His brother | crowned as | *Shah Jahan II."
     },
     {
@@ -354,11 +357,11 @@
       "caps": "A *third | *puppet."
     },
     {
-      "text": "They chose a seventeen-year-old prince, Row-shun Akh-tar.",
+      "text": "They chose a seventeen-year-old prince, Raushan Akhtar.",
       "caps": "A *17-year-old | prince, | *Raushan Akhtar."
     },
     {
-      "text": "In September seventeen nineteen, he was crowned as Mohammed Shah.",
+      "text": "In September seventeen nineteen, he was crowned as Muhammad Shah.",
       "caps": "*September 1719: | crowned *Muhammad Shah."
     },
     {
@@ -379,11 +382,11 @@
       "gap": 0.7
     },
     {
-      "text": "Mohammed Shah waited, and quietly found allies.",
+      "text": "Muhammad Shah waited, and quietly found allies.",
       "caps": "Muhammad Shah | *waited, | and found *allies."
     },
     {
-      "text": "The most important was Nizaam ul Mulk,",
+      "text": "The most important was Nizam-ul-Mulk,",
       "caps": "The most important: | *Nizam-ul-Mulk,"
     },
     {
@@ -436,7 +439,7 @@
       "caps": "Historian *Sidney Owen"
     },
     {
-      "text": "Ba-haa-dur Shah the First, he wrote, was the last emperor of whom anything favourable can be said.",
+      "text": "Bahadur Shah the First, he wrote, was the last emperor of whom anything favourable can be said.",
       "caps": "Bahadur Shah I | \"was the *last Emperor | of whom anything | *favourable | can be said.\""
     },
     {
@@ -454,7 +457,7 @@
       "gap": 0.7
     },
     {
-      "text": "Mohammed Shah would rule for twenty-nine years.",
+      "text": "Muhammad Shah would rule for twenty-nine years.",
       "caps": "Muhammad Shah | would rule | *29 years."
     },
     {
@@ -465,5 +468,46 @@
       "text": "a king from Persia was coming for his throne.",
       "caps": "a king from *Persia | was coming | for his *throne."
     }
-  ]
+  ],
+  "lexicon": {
+    "Mughal": "mˈuːɡəl",
+    "Aurangzeb": "ˈɔːɹəŋzˌeːb",
+    "Muazzam": "muːˈæzzəm",
+    "Azam": "ˈɑːzəm",
+    "Kam": "kˈɑːm",
+    "Bakhsh": "bˈʌxʃ",
+    "Bahadur": "bəhˈɑːdʊɹ",
+    "Shah": "ʃˈɑː",
+    "Shahu": "ʃˈɑːhuː",
+    "Maratha": "məɹˈɑːʈɑː",
+    "Rajput": "ɹˈɑːdʒpuːt",
+    "Punjab": "pʌndʒˈɑːb",
+    "Banda": "bˈʌndɑː",
+    "Khafi": "kxˈɑːfiː",
+    "Khan": "kxˈɑːn",
+    "Shah-i-Bekhabar": "ʃˈɑːhiː bˌeːxəbˈɑːɹ",
+    "Jahandar": "dʒəhˈɑːndɑːɹ",
+    "Zulfikar": "zʊlfɪkˈɑːɹ",
+    "izara": "ɪzˈɑːɹɑː",
+    "jizya": "dʒˈɪzjə",
+    "Farrukhsiyar": "fˌʌɹʊxsˈɪjɑːɹ",
+    "Sayyid": "sˈaɪjɪd",
+    "Abdullah": "ʌbdˈʊlɑː",
+    "Hassan": "hˈʌsən",
+    "Ali": "ˈɑːliː",
+    "Hussain": "hʊsˈeːn",
+    "farmans": "fəɹmˈɑːnz",
+    "Ahir": "əhˈiːɹ",
+    "Peshwa": "pˈeːʃwɑː",
+    "Balaji": "bˈɑːlɑːdʒiː",
+    "Vishwanath": "vɪʃwˈɑːnɑːt",
+    "Rafi-ud-Darajat": "ɹəfˈiː ʊd dəɹədʒˈɑːt",
+    "Jahan": "dʒəhˈɑːn",
+    "Raushan": "ɹˈɔːʃən",
+    "Akhtar": "ˈʌxtəɹ",
+    "Muhammad": "mʊhˈʌməd",
+    "Nizam-ul-Mulk": "nɪzˈɑːmʊl mˈʊlk",
+    "Awadh": "ˈʌwəd",
+    "Deccan": "dˈɛkən"
+  }
 }

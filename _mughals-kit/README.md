@@ -6,7 +6,7 @@ Built in Episode 1 (episodes/ep01-kingmakers). Every later episode copies this f
 
 Format: Paper Atlas look converted to **16:9, 1920x1080, 30 fps**. Captions on a torn strip at y≈958
 (Caladea 68 px, max width 1500, one crimson key word; captions start at 0.0 s; in the last 20 s they move left to
-keep the bottom-right 420x260 clear for end-screen elements). Era bar at y≈70 after each beat card.
+keep the bottom-right 420x260 clear for end-screen elements). Era bar in the top-left corner after each beat card. Keep labels between y≈140 and y≈820 (the caption strip starts at y≈904).
 
 ## Engine (`src/main.js`)
 - **Camera per shot** (`cam`): `push` (slow 5-10% zoom), `pan: [[x0,y0],[x1,y1]]`, `snaps: [{ t, z, at }]` (quick zoom
@@ -22,10 +22,11 @@ keep the bottom-right 420x260 clear for end-screen elements). Era bar at y≈70 
 - Text: `label`, `slip`, `ribbon`, `seal`, `statCard` (pops from pins), `quoteStrip` (kinetic quote, word by word, key words crimson, speaker + source).
 - Captions: `CAPLOOK`, `captionStrip`. Beat: `beatCard`, `eraBar`.
 - Idle motion: `idle.breathe / sway / blink / flicker / flutter` (figures breathe, sway and blink on their own).
-- **India map**: `VIEW`, `proj(lon, lat, v)`, `PLACES`, `indiaMap({ t, v, mughal, pins, extra, noCompass })` (series anchor
+- **India map** (real coastlines: `india-land.js` = Natural Earth 1:10m, rebuilt by `tools/coast.mjs`; conic-style projection like the Survey of India sheets; no modern borders): `VIEW`, `proj(lon, lat, v)`, `landPath`, `MUGHAL1707`, `PLACES`, `indiaMap({ t, v, mughal, pins, extra, noCompass })` (series anchor
   map, 1707 Mughal green), `inkBleed(poly, colour, p, origin)` (noise-edged territory wipe), `pin` (pulsing), `route`
   (draws itself with an icon at the tip), `battle` (crimson ring, 1.2 s), `compass`, `crossedSwords`.
-- Props: `crown`, `throne`, `candle` (snuff), `cloth`, `farman` (scroll + seal), `ledger`, `coin`, `sword`, `torch`, `flag`.
+- Flags: `flag(x, y, s, t, colour)` draws the **Mughal alam** for `P.mughal` (triangular green pennant, gold stars, sun-and-lion; after NikNaks' Commons reconstruction, CC BY-SA 3.0 — credit it in the description) and the **Maratha Bhagwa Dhwaj** for `P.maratha` (saffron swallowtail, public domain); `mughalFlag`, `marathaFlag`.
+- Props: `hand` (big paper hand), `calendar` (pages flip backwards), `doors`, `chest` (treasury), `field` (crop rows), `crown`, `throne`, `candle` (snuff), `cloth`, `farman` (scroll + seal), `ledger`, `coin`, `sword`, `torch`, `flag`.
 - Places: `court({ night, throne, jharokha })` (red sandstone cusped arches, jharokha balcony, throne platform),
   `corridor`, `gate`, `cutArch`.
 - People: `figure(o)` Mughal-era cut-out (jama, turban + plume, sash, beard, halo, props, blink, smile, brows) and the
@@ -39,9 +40,12 @@ keep the bottom-right 420x260 clear for end-screen elements). Era bar at y≈70 
 - `python tools/mix.py .` (needs numpy + scipy: the skill's venv): procedural SFX for every `ev()` kind
   (`sfxFor` map in shots.js), a sectioned score (tension / court / uneasy / reflective), sidechain duck
   (attack 80 ms, release 400 ms), stings, mastered to about -16 LUFS.
+- `python tools/voice_ipa.py .`: the narration with **exact name pronunciations** from `script.json` "lexicon" (IPA per word; captions keep the real spellings). Use it instead of the skill's voice.py.
+- `python tools/name_check.py`: ear-proxy check of every lexicon name (Whisper transcribes each one) → `review/names.md`.
 - `python tools/words_fit.py .`: word timings when Whisper can't download (fitted inside the exact line times).
 - `node tools/thumb.mjs`: `renders/thumb.png` + `thumb-b.png` (1280x720) and 128x72 checks (edit `src/thumb.js` per episode).
 - `bash tools/render.sh <slug>`: final render in 60 s parts, 3 at a time, concat, mux the mix once, plus a 720p review copy.
 - `python tools/package.py <slug>`: packaging file + .srt (edit the episode-specific text inside first).
 
 `anchor-states.json`: where the series map stands after each episode.
+- `lexicon.json`: the series name-pronunciation list (copy into each episode's script.json "lexicon").
