@@ -12,7 +12,7 @@ const ws = new WebSocket(tg.webSocketDebuggerUrl); await new Promise((r) => (ws.
 const ev = (expr) => new Promise((res) => { const i = ++id; pend.set(i, (m) => res(m.result?.result?.value ?? m.result?.exceptionDetails?.exception?.description)); ws.send(JSON.stringify({ id: i, method: 'Runtime.evaluate', params: { expression: expr, returnByValue: true, awaitPromise: true } })); });
 for (let i = 0; i < 200; i++) { if (await ev('window.THUMB && THUMB.ready') === true) break; await sleep(100); }
 fs.mkdirSync(path.join(ROOT, 'renders'), { recursive: true }); fs.mkdirSync(path.join(ROOT, 'review'), { recursive: true });
-for (const [v, name] of [['A', 'thumb'], ['B', 'thumb-b']]) {
+for (const [v, name] of [['A', 'thumb'], ['B', 'thumb-b'], ['C', 'thumb-clickbet']]) {
   const d = await ev(`THUMB.draw('${v}')`); if (typeof d !== 'string' || !d.startsWith('data:')) throw new Error(String(d));
   const raw = path.join(os.tmpdir(), `${name}-raw.png`); fs.writeFileSync(raw, Buffer.from(d.split(',')[1], 'base64'));
   spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', raw, '-vf', 'scale=1280:720:flags=lanczos', path.join(ROOT, 'renders', `${name}.png`)]);
