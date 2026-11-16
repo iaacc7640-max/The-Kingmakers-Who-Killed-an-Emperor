@@ -4,7 +4,7 @@
 import { W, H, setCtx, ctx, clamp, lerp, eo, eio, eob } from './core/lib.js';
 import { T, loadTiming } from './core/timing.js';
 import { buildCaptions, drawCaption, captionList } from './core/captions.js';
-import { beatCard, eraBar } from './core/kit.js';
+import { beatCard, eraBar, beginLabels, flushLabels } from './core/kit.js';
 import { buildShots } from './shots.js';
 
 const cv = document.getElementById('cv'), main = cv.getContext('2d');
@@ -27,7 +27,7 @@ function drawShot(i, t) {
   const S = OP._shots, sh = S[i], end = i < S.length - 1 ? S[i + 1].at : T.dur, d = end - sh.at, lt = t - sh.at;
   const [x, y, z] = camAt(sh, lt, d), punch = sh.whip ? 1 : 1 + 0.035 * (1 - eo(clamp(lt / 0.22)));
   ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(z * punch, z * punch); ctx.translate(-x, -y);
-  sh.draw(lt, d, t); ctx.restore(); ctx.globalAlpha = 1; ctx.letterSpacing = '0px'; ctx.filter = 'none';
+  beginLabels(); sh.draw(lt, d, t); flushLabels(); ctx.restore(); ctx.globalAlpha = 1; ctx.letterSpacing = '0px'; ctx.filter = 'none';
   if (sh.ui) { sh.ui(lt, d, t); ctx.globalAlpha = 1; }
 }
 const shotIndex = (t) => { const S = OP._shots; let i = S.length - 1; while (i > 0 && S[i].at > t) i--; return i; };

@@ -38,7 +38,7 @@ function blindfold(x, y, h, p) { if (p <= 0) return; const sc = h / 520; ctx.sav
 function slamDoors(p) { if (p <= 0) return; for (const k of [-1, 1]) { const w = (W / 2 + 60) * p; ctx.save(); ctx.translate(k < 0 ? -60 : W + 60, 0); cut(P_rr(k < 0 ? 0 : -w, -400, w, H + 800, 4), '#5A2C22', { shadow: 1.2, edge: 3 }); for (let i = 0; i < 3; i++) circle(k < 0 ? w - 80 : -w + 80, 250 + i * 260, 14, P.gold); ctx.restore(); } }
 /** a sickle swinging at (x, y) */
 function sickle(x, y, t, k) { ctx.save(); ctx.translate(x, y); ctx.rotate(Math.sin(t * 6 + k) * 0.6); line([[0, 0], [0, 50]], P.sepia, 7); ctx.beginPath(); ctx.arc(16, 62, 20, Math.PI * 0.5, Math.PI * 1.7); ctx.strokeStyle = P.stone; ctx.lineWidth = 7; ctx.stroke(); ctx.restore(); }
-const persianArrow = (v, p) => K.route([[58.5, 33.5], [63, 33], [67.5, 33.2], [71.5, 31.5], [75.2, 29.6]], p, P.persia, v, (x, y, a) => { ctx.save(); ctx.translate(x, y); ctx.rotate(a); cut(P_poly([[24, 0], [-14, -20], [-14, 20]]), P.persia, { shadow: 0.5, edge: 2 }); ctx.restore(); });
+const persianArrow = (v, p) => K.route([[55.5, 32.6], [60.5, 31.8], [65.7, 31.6], [69.2, 34.5], [71.6, 34.0], [74.3, 31.5], [76.98, 29.69], [77.1, 29.0]], p, P.persia, v, (x, y, a) => { ctx.save(); ctx.translate(x, y); ctx.rotate(a); cut(P_poly([[24, 0], [-14, -20], [-14, 20]]), P.persia, { shadow: 0.5, edge: 2 }); ctx.restore(); });
 
 export function buildShots() {
   const S = [], CUES = [], EV = [], BEATS = [];
@@ -97,7 +97,7 @@ export function buildShots() {
       K.calendar(960, 520, 1.0, yr, u >= n ? 1707 : yr - 1, lt < f0 ? 0 : fr); K.slip('BACK TO 1707', 1480, 300, pop(lt, f1), 0.04, 44, { color: P.crimson }); } });
     for (let i = 0; i < 12; i++) ev(22.0 + i * 0.2, 'slip', { gain: 0.45 }); ev(24.4, 'stamp', { gain: 0.6 }); }
   { const s = at(8), ru = Wd('ruled', 8) - s, fi = Wd('fifty', 8) - s;
-    add({ id: 'B1b', at: s, cam: { at: [960, 380], push: 0.08 }, note: 'Aurangzeb, an aged silhouette at the jharokha window', draw(lt, d, t) { dayCourt(t, { throne: false }); person('aurangzeb', { x: 960, y: 300, h: 300, t }); K.slip('AURANGZEB', 960, 520, pop(lt, 0.3), -0.02, 44); K.statCard('~50 YEARS', 'ON THE THRONE · 1658–1707', 1450, 520, pop(lt, fi)); silhouetteRow(5, 380, FLOOR, 290, 380, t, '#5A4636'); } });
+    add({ id: 'B1b', at: s, cam: { at: [960, 380], push: 0.08 }, note: 'Aurangzeb, an aged silhouette at the jharokha window', draw(lt, d, t) { dayCourt(t, { throne: false }); person('aurangzeb', { x: 960, y: 300, h: 300, t }); K.slip('AURANGZEB', 560, 230, pop(lt, 0.3), -0.02, 44); K.statCard('~50 YEARS', 'ON THE THRONE · 1658–1707', 1420, 280, pop(lt, fi)); silhouetteRow(5, 380, FLOOR, 290, 380, t, '#5A4636'); } });
     ev(s, 'court'); ev(s + 0.3, 'slip'); ev(s + ru, 'pop', { gain: 0.4 }); ev(s + fi, 'pop'); }
   { const s = at(9), th = Wd('three', 9) - s, em = Wd('empire', 9) - s, he = Wd('heir', 10) - s;
     add({ id: 'B1c', at: s, cam: { pan: [[900, 540], [1020, 520]], push: 0.06 }, note: 'the window empties; three princes below; NO HEIR', draw(lt, d, t) { dayCourt(t, { throne: false }); ctx.save(); ctx.globalAlpha = clamp(1 - lt / 0.8); person('aurangzeb', { x: 960, y: 300, h: 300, t }); ctx.restore();
@@ -153,15 +153,27 @@ export function buildShots() {
       K.slip('SHAHU · MARATHA PRINCE', 700, 140, pop(lt, 0.3), -0.03, 44); K.slip('SET FREE', 1400, 300, pop(lt, fr), 0.04, 54, { color: P.crimson }); K.flag(1650, FLOOR, 1.3 * pop(lt, ho), t, P.maratha); } });
     ev(s, 'step'); ev(s + 0.3, 'slip'); ev(s + 1.6, 'step'); ev(s + fr, 'stamp'); ev(s + ho, 'pop'); }
   { const s = at(25), co = Wd('confirmed', 25) - s;
-    const RAJ = [[69.5, 26.5], [70.5, 28.4], [73.5, 29.6], [76.2, 28.0], [77.2, 26.6], [76.8, 24.6], [75.5, 23.3], [73.5, 23.6], [71.5, 24.7]];
+    const RAJ = [[69.6, 26.2], [70.3, 28.0], [72.6, 29.9], [74.6, 29.9], [75.8, 28.6], [77.4, 27.4], [77.3, 26.0], [76.6, 24.5], [75.8, 23.3], [74.4, 23.2], [73.4, 24.0], [72.2, 24.4], [70.7, 24.8]];
     add({ id: 'B2c', at: s, cam: { at: [740, 380], push: 0.06, z0: 1.35 }, note: 'map: Rajput lands ink in; seals stamp on Amber, Jodhpur, Udaipur', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, extra: (v) => K.inkBleed(RAJ, P.rajput, clamp((lt - 0.2) / 1.2), [74, 26], v, 5) });
-      [[75.85, 26.98, 'AMBER'], [73.0, 26.3, 'JODHPUR'], [73.7, 24.6, 'UDAIPUR']].forEach(([lo, la, n], i) => { const [x, y] = proj(lo, la); K.seal(x, y, pop(lt, co + i * 0.35) * 0.55); K.label(n, x, y + 50, 24, P.ink); });
+      [[75.85, 26.98, 'AMBER'], [73.0, 26.3, 'JODHPUR'], [73.7, 24.6, 'UDAIPUR']].forEach(([lo, la, n], i) => { const [x, y] = proj(lo, la); K.seal(x, y, pop(lt, co + i * 0.35) * 0.45); K.slip(n, x + [60, -70, 0][i], y + [-50, -50, 50][i], pop(lt, co + i * 0.35), 0, 22, { pin: null }); });
       K.slip('RAJPUT KINGS CONFIRMED', 760, 140 + 60, pop(lt, 0.4), -0.02, 40); } });
     ev(s + 0.2, 'map'); ev(s + 0.4, 'slip'); [0, 1, 2].forEach((i) => ev(s + co + i * 0.35, 'stamp', { gain: 0.7 })); }
   { const s = at(26), ar = Wd('armies', 26) - s, ba = Wd('Banda', 27) - s;
-    add({ id: 'B2d', at: s, cam: { at: [700, 300], push: 0.06, z0: 1.5 }, note: 'Punjab: an army route; a distant Sikh rider, Banda Bahadur', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, pins: [{ place: 'Sirhind', label: 'SIRHIND', p: pop(lt, 0.3), dy: 46 }] }); K.route([[77.2, 28.6], [76.8, 29.6], [76.4, 30.6]], clamp((lt - ar + 0.3) / 1.2), P.mughal);
-      if (lt > ar + 0.9) K.battle(...proj(76.4, 30.6), t, 0.9); const [x, y] = proj(75.2, 31.6); rider(x - (1 - pop(lt, ba)) * 200, y + 40, 0.42, t); K.slip('BANDA BAHADUR', x - 120, y - 150, pop(lt, ba + 0.2), -0.03, 30); } });
-    ev(s + 0.3, 'pop', { gain: 0.5 }); ev(s + ar, 'march', { dur: 1.8 }); ev(s + ar + 0.9, 'battle', { gain: 0.6 }); ev(s + ba, 'march', { gain: 0.6, dur: 1.4 }); ev(s + ba + 0.2, 'slip'); }
+    // Banda Singh Bahadur's Punjab, close up (coordinates: Wikipedia): Sirhind, Chappar Chiri (May 1710), Sadhaura, Lohgarh (his fort,
+    // besieged by the Mughal army in December 1710)
+    const v = { cx: 76.9, cy: 29.4, s: 280 };
+    add({ id: 'B2d', at: s, cam: { at: [960, 500], push: 0.06 }, note: 'Punjab close up: the Mughal army marches from Delhi to besiege Banda Bahadur at Lohgarh (Dec 1710); Sirhind, Chappar Chiri, Sadhaura', draw(lt, d, t) {
+      K.indiaMap({ t, mughal: 1, v, noCompass: true, pins: [
+        { place: 'Delhi', label: 'DELHI', p: 1, dy: 52 },
+        { ll: [76.383, 30.617], label: 'SIRHIND', p: pop(lt, 0.3), color: P.sikh, dy: -48 },
+        { ll: [76.667, 30.7], label: 'CHAPPAR CHIRI', p: pop(lt, 0.5), color: P.sikh, dy: 50, dx: -70, size: 26 },
+        { ll: [77.217, 30.383], label: 'SADHAURA', p: pop(lt, 0.7), color: P.sikh, dy: 52, size: 26 },
+        { ll: [77.407, 30.429], label: 'LOHGARH', p: pop(lt, 0.9), color: P.sikh, dy: -50, dx: 40, pulse: lt > ar + 1.4 }] });
+      K.route([[77.2, 28.6], [77.05, 29.2], [77.15, 29.85], [77.38, 30.36]], clamp((lt - ar + 0.3) / 1.6), P.mughal, v, (x, y) => K.flag(x, y + 10, 0.5, t, P.mughal));
+      if (lt > ar + 1.3) K.battle(...proj(77.407, 30.429, v), t, 0.9);
+      const [rx, ry] = proj(78.0, 30.2, v); rider(rx + (1 - pop(lt, ba)) * 240, ry + 40, 0.5, t); K.slip('BANDA SINGH BAHADUR', rx + 200, ry - 150, pop(lt, ba + 0.2), -0.03, 30);
+      K.slip('SIEGE OF LOHGARH · DEC 1710', 1480, 640, pop(lt, ar + 1.2), 0.02, 34); K.slip('THE PUNJAB', 520, 520, pop(lt, 0.2), -0.03, 40); } });
+    ev(s + 0.2, 'slip'); ev(s + 0.5, 'pop', { gain: 0.4 }); ev(s + ar, 'march', { dur: 1.8 }); ev(s + ar + 1.3, 'battle', { gain: 0.6 }); ev(s + ba, 'march', { gain: 0.6, dur: 1.4 }); ev(s + ba + 0.2, 'slip'); }
   { const s = at(28), ti = Wd('titles', 28) - s, re = Wd('rewards', 28) - s, ha = Wd('happy', 28) - s;
     add({ id: 'B2e', at: s, cam: { pan: [[880, 520], [1060, 520]], push: 0.06 }, note: 'titles and coins fly from the throne to bowing nobles', draw(lt, d, t) { dayCourt(t); person('bahadur', { x: 960, y: 760, h: 440, t, arm: 40 + Math.sin(t * 3) * 10 });
       const nob = [[300, 'nizam'], [560, 'zulfikar'], [1360, 'abdullah'], [1620, 'hussain']]; nob.forEach(([x, k], i) => person(k, { x, y: FLOOR + 60, h: 400, t, k: i, prop: null, dir: x < 960 ? 1 : -1 }));
@@ -192,7 +204,7 @@ export function buildShots() {
     ev(s, 'court'); ev(s + ja + 0.4, 'stamp'); }
   { const s = at(37), be = Wd('beside', 37) - s, zu = Wd('minister', 38) - s;
     add({ id: 'B3d', at: s, cam: { pan: [[960, 520], [1300, 520]], push: 0.08 }, note: 'pan from the emperor to Zulfikar Khan with his ledger', draw(lt, d, t) { dayCourt(t); person('jahandar', { x: 960, y: 800, h: 520, t }); person('zulfikar', { x: 1380, y: FLOOR + 20, h: 560, t, k: 1, dir: -1, arm: 30 });
-      K.slip('THE REAL POWER', 1380, 200, pop(lt, be), 0.03, 44, { color: P.crimson }); K.slip('ZULFIKAR KHAN · CHIEF MINISTER', 1380, 300, pop(lt, zu), -0.02, 36); } });
+      K.slip('THE REAL POWER', 1380, 165, pop(lt, be), 0.0, 42, { color: P.crimson }); K.slip('ZULFIKAR KHAN · CHIEF MINISTER', 1380, 300, pop(lt, zu), 0.0, 34); } });
     ev(s + be, 'pop'); ev(s + zu, 'slip'); ev(s + zu + 1.6, 'write', { gain: 0.5 }); }
   { const s = at(39), cr = Wd('crown', 39) - s, ke = Wd('keys', 39) - s;
     add({ id: 'B3e', at: s, cam: { at: [960, 480], push: 0.06 }, note: 'crown on the left, the keys of the empire on the right', draw(lt, d, t) { K.parchment(39); person('jahandar', { x: 560, y: FLOOR, h: 500, t }); person('zulfikar', { x: 1360, y: FLOOR, h: 520, t, k: 2, dir: -1, prop: null, arm: 50 });
@@ -379,7 +391,7 @@ export function buildShots() {
     ev(s + 1.4, 'court'); ev(s + br, 'stamp'); ev(s + ce, 'slip'); ev(s + ce + 0.8, 'slide', { gain: 0.4 }); }
   { const s = at(99), go = Wd('governor', 99) - s, de = Wd('Deccan', 100) - s, aw = Wd('Awadh', 100) - s, be = Wd('Bengal', 100) - s, ki = Wd('kings', 100) - s;
     add({ id: 'B8b', at: s, cam: { at: [960, 470], push: 0.06, z0: 1.05 }, note: 'map: governors’ flags rise in the Deccan, Awadh and Bengal', draw(lt, d, t) { K.indiaMap({ t, mughal: 1 }); [[78.5, 17.4, P.hyderabad, 'DECCAN', de], [80.9, 26.8, P.awadh, 'AWADH', aw], [88.3, 24.2, P.bengal, 'BENGAL', be]].forEach(([lo, la, c, n, w]) => { const [x, y] = proj(lo, la); const p = pop(lt, w); if (p > 0) { K.flag(x, y, 0.7 * p, t, c); K.slip(n, x + 30, y + 50, p, 0.02, 30, { pin: null }); } });
-      for (let i = 0; i < 5; i++) { const [x, y] = proj(72 + i * 3.5, 30 - (i % 2) * 6); K.pin({ ll: [72 + i * 3.5, 30 - (i % 2) * 6], p: pop(lt, go + i * 0.2), color: P.ink }); } K.slip('RULING LIKE KINGS', 960, 140, pop(lt, ki), -0.02, 44, { color: P.crimson }); } });
+      K.slip('RULING LIKE KINGS', 960, 140, pop(lt, ki), -0.02, 44, { color: P.crimson }); } });
     [0, 1, 2, 3, 4].forEach((i) => ev(s + go + i * 0.2, 'pop', { gain: 0.4 })); ev(s + de, 'pop'); ev(s + aw, 'pop'); ev(s + be, 'pop'); ev(s + ki, 'slip'); ev(Wd('followed', 100), 'pop', { gain: 0.3 }); ev(Wd('general', 99), 'pop', { gain: 0.3 }); ev(Wd('power', 99), 'pop', { gain: 0.3 }); }
   { const s = at(101), ow = Wd('Owen', 101) - s;
     const qs = L(102), words = T.words.filter((w) => w.line === 102);
@@ -398,7 +410,7 @@ export function buildShots() {
     add({ id: 'B8e', at: s, cam: { at: [860, 460], push: 0.08 }, note: 'tease: Muhammad Shah rules on (29 years)', draw(lt, d, t) { dayCourt(t); person('mshah', { x: 960, y: 760, h: 460, t }); K.statCard('29 YEARS', 'MUHAMMAD SHAH · 1719–1748', 480, 400, pop(lt, ye)); } });
     ev(s, 'court', { gain: 0.6 }); ev(s + ye, 'pop'); }
   { const s = at(107), pe = Wd('Persia', 108) - s, th = Wd('throne', 108) - s;
-    add({ id: 'B8f', at: s, cam: { at: [820, 420], push: 0.12, z0: 1.1 }, note: 'tease: 1739; a turquoise arrow from Persia points at Delhi', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, noCompass: true, pins: [{ place: 'Delhi', label: 'DELHI', p: 1, pulse: lt > th }] }); K.ribbon('1739', 1300, 230, pop(lt, 0.2), 80); persianArrow(K.VIEW, clamp((lt - pe + 0.4) / 1.6)); K.slip('PERSIA', ...proj(61.5, 34.8), pop(lt, pe), -0.03, 40); } });
+    add({ id: 'B8f', at: s, cam: { at: [820, 420], push: 0.12, z0: 1.1 }, note: 'tease: 1739; a turquoise arrow from Persia points at Delhi', draw(lt, d, t) { K.indiaMap({ t, mughal: 1, noCompass: true, pins: [{ place: 'Delhi', label: 'DELHI', p: 1, pulse: lt > th }] }); K.ribbon('1739', 1300, 230, pop(lt, 0.2), 80); persianArrow(K.VIEW, clamp((lt - pe + 0.4) / 1.6)); K.slip('PERSIA', ...proj(55.5, 34.2), pop(lt, pe), -0.03, 40); } });
     ev(s + 0.2, 'stamp'); ev(s + pe - 0.4, 'march', { dur: 2 }); ev(s + th, 'pop'); cue(Le(108) + 0.3, 'sting'); EV.push({ t: Le(108) + 0.3, kind: 'sting' }); ev(Le(108) + 1.2, 'pop', { gain: 0.2, silent: true }); }
 
   return { shots: S, cues: CUES, beats: BEATS, events: EV };

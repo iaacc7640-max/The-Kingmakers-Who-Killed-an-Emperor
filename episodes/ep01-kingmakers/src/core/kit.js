@@ -38,17 +38,25 @@ export function vignette(a = 0.34) { const g = ctx.createRadialGradient(W / 2, H
 /** the same parchment under a navy night wash, with faint stars */
 export function nightPage(seed = 0, a = 0.84) { parchment(seed); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = P.night; ctx.fillRect(-400, -400, W + 800, H + 800); ctx.restore(); for (let i = 0; i < 40; i++) circle(rnd(i + seed) * W, rnd(i + 40 + seed) * 500, 2 + rnd(i) * 2.5, 'rgba(233,220,188,0.7)'); }
 
+// ═════════════ LABEL LAYER ═════════════
+// Between beginLabels() and flushLabels() (main.js wraps every shot), slips, stat cards and ribbons are queued with
+// the transform they were called under and drawn last, on top of every figure and prop.
+let LAYER = null;
+export function beginLabels() { LAYER = []; }
+export function flushLabels() { const q = LAYER; LAYER = null; if (!q) return; for (const [m, a, fn] of q) { ctx.save(); ctx.setTransform(m); ctx.globalAlpha = a; fn(); ctx.restore(); } }
+const later = (fn) => { if (!LAYER) return false; LAYER.push([ctx.getTransform(), ctx.globalAlpha, fn]); return true; };
+
 // ═════════════ TEXT ═════════════
 export function label(text, x, y, size = 30, color = P.ink, align = 'center') { ctx.font = `700 ${size}px ${SERIF}`; ctx.letterSpacing = '3px'; ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.fillStyle = color; ctx.fillText(text, x, y); ctx.letterSpacing = '0px'; }
 /** a pinned paper slip with a few words */
 export function slip(text, x, y, sc = 1, rot = -0.03, size = 46, { fill = P.edge, color = P.ink, pin = P.crimson } = {}) {
-  if (sc <= 0) return; ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc); ctx.font = `700 ${size}px ${SERIF}`;
+  if (sc <= 0) return; if (later(() => slip(text, x, y, sc, rot, size, { fill, color, pin }))) return; ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc); ctx.font = `700 ${size}px ${SERIF}`;
   const w = ctx.measureText(text).width + 60; cut(P_rr(-w / 2, -size * 0.78, w, size * 1.56, 4), fill);
   ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, 4); if (pin) circle(0, -size * 0.78 + 6, 8, pin); ctx.restore();
 }
 /** gold date ribbon */
 export function ribbon(text, x, y, sc = 1, size = 84) {
-  if (sc <= 0) return; ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc); ctx.font = `700 ${size}px ${SERIF}`;
+  if (sc <= 0) return; if (later(() => ribbon(text, x, y, sc, size))) return; ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc); ctx.font = `700 ${size}px ${SERIF}`;
   const w = ctx.measureText(text).width + size * 1.1, h = size * 1.35;
   for (const s of [-1, 1]) cut(P_poly([[s * w / 2, -h / 2 + 24], [s * (w / 2 + 90), -h / 2 + 24], [s * (w / 2 + 58), 24], [s * (w / 2 + 90), h / 2 + 24], [s * w / 2, h / 2 + 24]]), P.goldDark, { shadow: 0.6 });
   cut(P_rr(-w / 2, -h / 2, w, h, 6), P.gold); ctx.fillStyle = P.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, 5);
@@ -58,7 +66,7 @@ export function ribbon(text, x, y, sc = 1, size = 84) {
 export function seal(x, y, s = 1, letter = '') { if (s <= 0) return; ctx.save(); ctx.translate(x, y); ctx.scale(s, s); cut(() => { ctx.beginPath(); for (let i = 0; i <= 40; i++) { const a = i / 40 * TAU, r = 60 + Math.sin(a * 9) * 5; ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); } ctx.closePath(); }, P.crimson, { shadow: 0.7, edge: 0 }); ctx.beginPath(); ctx.arc(0, 0, 40, 0, TAU); ctx.strokeStyle = '#7E2420'; ctx.lineWidth = 5; ctx.stroke(); if (letter) { ctx.font = `700 50px ${SERIF}`; ctx.fillStyle = '#7E2420'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(letter, 0, 4); } else { for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; circle(Math.cos(a) * 20, Math.sin(a) * 20, 5, '#7E2420'); } } ctx.restore(); }
 /** stat card popping from a pin: big number + small line */
 export function statCard(big, small, x, y, sc = 1, rot = 0.02) {
-  if (sc <= 0) return; ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc);
+  if (sc <= 0) return; if (later(() => statCard(big, small, x, y, sc, rot))) return; ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc);
   ctx.font = `400 92px Bebas`; const w1 = ctx.measureText(big).width; ctx.font = `700 30px ${SERIF}`; const w2 = ctx.measureText(small).width; const w = Math.max(w1, w2) + 70;
   cut(P_rr(-w / 2, -86, w, 160, 6), P.cream); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.font = `400 92px Bebas`; ctx.fillStyle = P.crimson; ctx.fillText(big, 0, -24); ctx.font = `700 30px ${SERIF}`; ctx.fillStyle = P.ink; ctx.fillText(small, 0, 44);
@@ -147,10 +155,10 @@ export function indiaMap(o = {}) {
   cut(() => landPath(v), P.land, { shadow: 1.2, edge: 4 });
   // faint graticule on land (meridians curve with the projection)
   ctx.save(); landPath(v); ctx.clip(); ctx.strokeStyle = 'rgba(62,44,30,0.09)'; ctx.lineWidth = 2;
-  for (let lo = 55; lo <= 105; lo += 5) { ctx.beginPath(); for (let la = -2; la <= 44; la += 2) { const [x, y] = proj(lo, la, v); la > -2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); }
-  for (let la = 5; la <= 40; la += 5) { ctx.beginPath(); for (let lo = 50; lo <= 106; lo += 2) { const [x, y] = proj(lo, la, v); lo > 50 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); } ctx.restore();
+  for (let lo = 25; lo <= 135; lo += 5) { ctx.beginPath(); for (let la = -20; la <= 62; la += 2) { const [x, y] = proj(lo, la, v); la > -20 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); }
+  for (let la = -15; la <= 60; la += 5) { ctx.beginPath(); for (let lo = 20; lo <= 140; lo += 2) { const [x, y] = proj(lo, la, v); lo > 20 ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); } ctx.restore();
   // Himalaya: a row of paper peaks along the range
-  HIMALAYA.forEach(([lo, la]) => { const [x, y] = proj(lo, la, v), k = v.s / 31; cut(P_poly([[x - 30 * k, y + 12 * k], [x, y - 26 * k], [x + 30 * k, y + 12 * k]]), '#C9B48A', { shadow: 0.3, edge: 2 }); });
+  HIMALAYA.forEach(([lo, la]) => { const [x, y] = proj(lo, la, v), k = Math.min(1.6, v.s / 31); cut(P_poly([[x - 30 * k, y + 12 * k], [x, y - 26 * k], [x + 30 * k, y + 12 * k]]), '#C9B48A', { shadow: 0.3, edge: 2 }); });
   if (o.mughal) inkBleed(MUGHAL1707, P.mughal, o.mughal, [77.2, 28.6], v, 2);
   if (o.extra) o.extra(v);
   // sea labels
@@ -295,7 +303,8 @@ export function gate(x, y, s = 1) { ctx.save(); ctx.translate(x, y); ctx.scale(s
 // ═════════════ PEOPLE: Mughal-era paper cut-outs ═════════════
 // figure({ x, y, h, dir, jama, turban, sash, beard: 'white'|'grey'|'black'|'none', age, pale, thin, halo, prop, arm, t, k, smile, brows, plume })
 export function figure(o) {
-  const h = o.h || 520, d = o.dir || 1, s = h / 520, t = o.t || 0, k = o.k || 0;
+  if (o.h != null && o.h <= 1) return;   // a figure that hasn't popped in yet (h = size * pop) is not drawn
+  const h = o.h ?? 520, d = o.dir || 1, s = h / 520, t = o.t || 0, k = o.k || 0;
   const thin = o.thin ? 0.78 : 1, br = idle.breathe(t, k), sw = idle.sway(t, k), wk = o.walk != null ? Math.sin(o.walk) : 0;
   const skin = o.pale ? P.pale : (o.skin || P.skin), jama = o.jama || P.cream;
   ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(sw); ctx.scale(s * d, s * br);

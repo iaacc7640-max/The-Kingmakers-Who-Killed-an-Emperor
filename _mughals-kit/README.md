@@ -18,6 +18,8 @@ keep the bottom-right 420x260 clear for end-screen elements). Era bar in the top
 - `window.OP`: `duration() draw(t) frame(t) shots() captions() cues() events() beats()`.
 
 ## Kit (`src/core/kit.js`, `import * as K`)
+- **Label layer:** main.js wraps each shot in `beginLabels()` / `flushLabels()`, so every `slip`, `statCard` and `ribbon` is drawn last, on top of all figures and props.
+- `figure` draws nothing while `h` is 0 (a pop-in at its start), so pass `h: size * pop(...)` freely.
 - Paper: `cut`, `P_rr P_circ P_ell P_poly`, `parchment`, `nightPage`, `darkParchment`, `vignette`.
 - Text: `label`, `slip`, `ribbon`, `seal`, `statCard` (pops from pins), `quoteStrip` (kinetic quote, word by word, key words crimson, speaker + source).
 - Captions: `CAPLOOK`, `captionStrip`. Beat: `beatCard`, `eraBar`.

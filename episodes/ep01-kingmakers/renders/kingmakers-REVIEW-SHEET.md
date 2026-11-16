@@ -1,9 +1,16 @@
-# Review sheet: The Kingmakers Who Killed an Emperor (Ep 1, **v2**)
+# Review sheet: The Kingmakers Who Killed an Emperor (Ep 1, **v3**)
 
 **Length 6:21** (380.8 s) · 1920x1080 · 30 fps · H.264 + AAC · voice Kokoro bm_george at 0.97, names spoken from exact phonetic spellings · mix -16.3 LUFS integrated, true peak -3.7 dBFS.
 Files: `kingmakers-review.mp4` (720p) · `kingmakers.mp4` (1080p master) · `thumb.png` / `thumb-b.png` (unchanged) · `kingmakers-packaging.md` · `kingmakers.srt`.
 
-## Your v2 changes: where each one landed
+## Your v3 changes: where each one landed
+| # | You asked | What changed | Where |
+|---|---|---|---|
+| 1 | 1:20-1:25: "Sindh" (Punjab map) in the wrong place; use the Banda Singh Bahadur references | **The cause:** the coastline data stopped at longitude 50°E, so when the camera zoomed in, the cut edge showed as a fake straight coast, with sea where Sindh, Baluchistan and Punjab's west should be land. The data now covers 20°E-140°E, so the edge is never on screen. **The scene** is now a close-up of Banda Singh Bahadur's Punjab, with the places checked on Wikipedia: **Sirhind** (30.62°N 76.38°E), **Chappar Chiri** (30.70°N 76.67°E, May 1710), **Sadhaura** (30.38°N 77.22°E) and **Lohgarh**, his fort (30.43°N 77.41°E). The Mughal army marches from Delhi to besiege Lohgarh, "SIEGE OF LOHGARH · DEC 1710". | 1:20-1:26 |
+| 2 | Labels in the wrong place (e.g. 0:26 Aurangzeb hidden behind a character), across the video | Every label, card and ribbon is now **drawn last, on top of all characters and props**, in every shot. The Aurangzeb label moved beside his window, and the "~50 YEARS" card moved above the courtiers. I also re-spaced labels that touched each other: "THE REAL POWER" and "ZULFIKAR KHAN" at 1:57, the Banda Singh Bahadur label, and the Rajput town names. I checked the whole film on contact sheets. | 0:25-0:29 · 1:53-2:00 · 1:17-1:20 · whole film |
+| 3 | Maps not accurate, across the video | Besides the coastline fix: **figures no longer flash in at full size** before they appear (the big black silhouette over the map at 0:52 was this bug). The **Rajputana** outline was redrawn closer to its real extent, with town names on labels. The unlabelled dots in the "governors" map were removed; only the Deccan, Awadh and Bengal flags remain, each at its real capital. The **Persian arrow** in the closing tease now follows Nadir Shah's real road: Kandahar, Kabul, Peshawar, Lahore, Karnal, Delhi. All maps keep the real Natural Earth coastlines, checked against the Survey of India maps. | all map shots · 0:52 · 1:17 · 5:38 · 6:13 |
+
+## Your v2 changes (previous round)
 | # | You asked | What changed | Where |
 |---|---|---|---|
 | 1 | Show the two brothers at the start (not two lines), and show them dragging, blinding and killing the emperor | The two Sayyid brothers now stride down the corridor with their guards, under a label. Guards **drag Emperor Farrukhsiyar** out of the throne room while the brothers watch, and his crown falls. A **blindfold** covers his eyes, the **doors slam shut** and a candle goes out. **Nearest safe version:** Part A forbids showing a blinding or killing on screen, so no injury is shown. The scene in Part 5 that shows him being dragged out and blinded uses the same staging. | 0:00-0:07 · 4:00-4:04 |
