@@ -71,5 +71,59 @@ function drawClickbet() {
   shockedFace(1640, 600, 92);
   burst(250, 190, 120, '1719');
 }
-window.THUMB = { draw: (v) => { if (v === 'C') drawClickbet(); else draw(v); return cv.toDataURL('image/png'); }, ready: false };
-(async () => { await document.fonts.load('400 100px Bebas'); await document.fonts.load('700 100px Caladea'); window.THUMB.ready = true; })();
+// ── Variant D (main): history-channel layout from the user's references — a real map as the backdrop, white heavy text on
+// black bars, one huge red word, bold arrows carrying flags, and the story's characters in front.
+function bar(txt, x, y, size, col = '#FFFFFF', bg = '#0B0B0B') {
+  ctx.save(); ctx.font = `900 ${size}px Inter`; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  const w = ctx.measureText(txt).width, pad = size * 0.22; ctx.fillStyle = bg; ctx.fillRect(x, y - size * 0.86 - pad * 0.6, w + pad * 2, size * 1.02 + pad * 0.9);
+  ctx.fillStyle = col; ctx.fillText(txt, x + pad, y); ctx.restore(); return w + pad * 2;
+}
+function bigRed(txt, x, y, size) {
+  ctx.save(); ctx.font = `900 ${size}px Inter`; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left'; ctx.lineJoin = 'round';
+  ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillText(txt, x + 10, y + 12); ctx.lineWidth = size * 0.12; ctx.strokeStyle = '#FFFFFF'; ctx.strokeText(txt, x, y); ctx.fillStyle = '#D7261E'; ctx.fillText(txt, x, y); ctx.restore();
+}
+function fatArrow(pts, col = '#D7261E') {   // a thick curved arrow with a white outline, like campaign maps
+  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const path = () => { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); ctx.quadraticCurveTo(pts[1][0], pts[1][1], pts[2][0], pts[2][1]); };
+  const [a, b] = [pts[1], pts[2]], ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+  const head = (grow) => { ctx.save(); ctx.translate(b[0], b[1]); ctx.rotate(ang); ctx.beginPath(); ctx.moveTo(30 + grow, 0); ctx.lineTo(-40 - grow, -46 - grow); ctx.lineTo(-40 - grow, 46 + grow); ctx.closePath(); ctx.restore(); };
+  ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 50; path(); ctx.stroke(); head(9); ctx.fillStyle = '#FFFFFF'; ctx.fill();
+  ctx.strokeStyle = col; ctx.lineWidth = 34; path(); ctx.stroke(); head(0); ctx.fillStyle = col; ctx.fill(); ctx.restore();
+}
+function controlBar(x, y, s, rot) {   // a marionette's wooden control cross, gold
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s);
+  K.cut(K.P_rr(-150, -14, 300, 28, 10), '#C8952F', { shadow: 0.8, edge: 3 }); K.cut(K.P_rr(-14, -110, 28, 220, 10), '#C8952F', { shadow: 0.8, edge: 3 });
+  for (const [cx, cy] of [[-150, 0], [150, 0], [0, -110], [0, 110]]) K.cut(K.P_circ(cx, cy, 16), '#A87A22', { shadow: 0.4, edge: 2 });
+  ctx.restore();
+}
+function drawMapThumb() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  const v = { cx: 67.3, cy: 24.0, s: 32 };
+  K.indiaMap({ t: 0.6, mughal: 1, v, noCompass: true });
+  const P = (lo, la) => K.proj(lo, la, v);
+  const [sx, sy] = P(74.0, 17.7), [dx, dy] = P(77.2, 28.6), [bx, by] = P(88.4, 22.6);
+  // dark left for the title, warm vignette
+  const gl = ctx.createLinearGradient(0, 0, 980, 0); gl.addColorStop(0, 'rgba(10,6,4,0.75)'); gl.addColorStop(1, 'rgba(10,6,4,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H); K.vignette(0.45);
+  // the Maratha march on Delhi, 1719 (Peshwa Balaji Vishwanath's troops with Hussain Ali)
+  fatArrow([[sx - 10, sy + 60], [sx - 30, sy - 70], [dx - 25, dy + 205]]);
+  K.marathaFlag(sx + 50, sy + 150, 0.8, 0.6);
+  // the Mughal flag over Delhi and the emperor on strings
+  K.mughalFlag(dx - 200, dy - 30, 0.8, 0.6);
+  const ex = dx + 60, ey = dy + 175; K.person('farrukh', { x: ex, y: ey, h: 360, t: 0.4, arm: 70, brows: 'worried', halo: false });
+  K.crown(ex + 16, ey - 372, 0.42, 0.25, { plume: false });
+  ctx.save(); ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(dx, dy, 15, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#FFD400'; ctx.beginPath(); ctx.arc(dx, dy, 8, 0, Math.PI * 2); ctx.fill(); ctx.font = '900 40px Inter'; ctx.lineWidth = 11; ctx.lineJoin = 'round'; ctx.strokeStyle = '#111'; ctx.fillStyle = '#fff'; ctx.textAlign = 'right'; ctx.strokeText('DELHI', dx - 26, dy + 14); ctx.fillText('DELHI', dx - 26, dy + 14); ctx.restore();
+  // the kingmakers' hand comes down from the top with the control cross
+  const cx = ex + 20, cy = 40;
+  controlBar(cx, cy + 40, 0.85, 0.06);
+  K.hand(cx, cy - 30, 1.25, Math.PI / 2, 1, '#D9A77E', '#2F5D3A');
+  ctx.save(); ctx.strokeStyle = '#FFE08A'; ctx.lineWidth = 4; ctx.shadowColor = 'rgba(255,210,90,0.9)'; ctx.shadowBlur = 10;
+  const sc = 360 / 520, tips = [[ex - 30, ey - 470 * sc * 0.6], [ex + 40, ey - 470 * sc * 0.75], [ex + 70, ey - 520 * sc * 0.55], [ex - 50, ey - 300 * sc]];
+  [[cx - 135, cy + 47], [cx + 135, cy + 33], [cx + 9, cy - 59], [cx - 9, cy + 139]].forEach(([hx, hy], i) => { ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(tips[i][0], tips[i][1]); ctx.stroke(); });
+  ctx.restore();
+  // title: black bars + one huge red line
+  bar('THE KINGMAKERS', 56, 190, 104); bar('WHO KILLED', 56, 345, 104);
+  bigRed('AN', 70, 570, 196); bigRed('EMPEROR', 70, 780, 196);
+  K.ribbon('1719', 300, 950, 1, 74);
+}
+window.THUMB = { draw: (v) => { if (v === 'D') drawMapThumb(); else if (v === 'C') drawClickbet(); else draw(v); return cv.toDataURL('image/png'); }, ready: false };
+(async () => { await document.fonts.load('900 100px Inter'); await document.fonts.load('400 100px Bebas'); await document.fonts.load('700 100px Caladea'); window.THUMB.ready = true; })();
